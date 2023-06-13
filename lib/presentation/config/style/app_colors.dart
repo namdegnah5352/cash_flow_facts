@@ -1,0 +1,21 @@
+import 'package:flutter/material.dart';
+
+const Color simplyWhite = Colors.white;
+const Color mainBackground = Color(0xffF5F5F5);
+const Color appBarColor = Color(0xffF2F4F8);
+const Color filterDropText = Color(0xff4A4A4A);
+const Color simplyBlack = Color(0xff000000);
+Color bottomBarBackground = Colors.grey.shade300;
+const Color buttonFast = Color(0xff0468D7);
+const Color clearFilterText = Color(0xff0042B3);
+const Color textFast = Color(0xff14C2AD);
+const Color platformText = Color(0xff13B9FD);
+const Color productiveText = Color(0xff833EF2);
+const Color flexibleText = Color(0xffF25D50);
+const Color dashboardHi = Color(0xff2A2E69);
+const Color textFormFieldColor = Color(0xff658DCD);
+const Color textFormFieldBorder = Color(0xffCED4DA);
+const Color customerGrey = Color(0xff222222);
+const Color countryCodeTextColor = Color(0xff374053);
+const Color basketTotalBackground = Color(0xffE0E0E0);
+const Color basketTotalHeader = Color(0xff1F242E);
