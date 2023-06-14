@@ -7,10 +7,11 @@ import '../../../domain/repositories/repositories_all.dart';
 import '../../../data/repositories/user_repository_imp.dart';
 import '../../../core/usecases/usecase.dart';
 import '../../../domain/usecases/user_usecase.dart';
-// import '../../bloc/users/user_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../link/user/user_link.dart';
 
 class GlobalNav {
+  late final SharedPreferences? sharedPreferences;
   late final AppNavigation appNavigation;
   SettingsData? settingsData;
   AppDataSource? appDataSource;
@@ -28,6 +29,7 @@ class GlobalNav {
 
   init() async {
     appNavigation = AppNavigation();
+    sharedPreferences = await SharedPreferences.getInstance();
     await database();
     appDataSource = LocalDataSource();
     userRepository = UserRepositoryImp(dataSource: appDataSource!);

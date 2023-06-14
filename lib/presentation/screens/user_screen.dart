@@ -85,7 +85,7 @@ class _UserScreenState extends State<UserScreen> {
                 } else {
                   GlobalNav.instance.userLink!.linkUpdateUser(widget.user);
                 }
-                Navigator.pop(context, widget.user);
+                Navigator.pop(context);
               });
             },
           ),
@@ -131,10 +131,10 @@ class _UserScreenState extends State<UserScreen> {
 }
 
 enum UserFields {
-  name('userName', 'User Name', 'enter user name', 'each user can have many accounts'),
-  email('userEmail', 'User Email', 'enter user email', 'email must contain @ and . characters'),
-  password('userPassword', 'User Password', 'enter user password', 'password must have capital, number and 8 to 16 chrs'),
-  passwordCheck('userPasswordCheck', 'Password Check', 'enter password again', 'passwords must match');
+  name('userNameKey', 'User Name', 'enter user name', 'each user can have many accounts'),
+  email('userEmailKey', 'User Email', 'enter user email', 'email must contain @ and . characters'),
+  password('userPasswordKey', 'User Password', 'enter user password', 'password must have capital, number and 8 to 16 chrs'),
+  passwordCheck('userPasswordCheckKey', 'Password Check', 'enter password again', 'passwords must match');
 
   const UserFields(this.key, this.labelText, this.hintText, this.helperText);
   final String key;

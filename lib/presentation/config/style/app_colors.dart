@@ -19,3 +19,5 @@ const Color customerGrey = Color(0xff222222);
 const Color countryCodeTextColor = Color(0xff374053);
 const Color basketTotalBackground = Color(0xffE0E0E0);
 const Color basketTotalHeader = Color(0xff1F242E);
+const Color cltx = Color(0xFFFFA726);
+const Color clred = Color(0xFFB71C1C);

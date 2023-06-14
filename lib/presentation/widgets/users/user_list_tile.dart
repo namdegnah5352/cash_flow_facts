@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../domain/entities/user.dart';
 import '../../../domain/usecases/calls.dart';
 import '../../config/navigation/global_nav.dart';
+import '../../config/style/app_colors.dart';
 
 class UserListTile extends StatelessWidget {
   @required
@@ -14,10 +15,10 @@ class UserListTile extends StatelessWidget {
     Color background;
     if (id == duc) {
       numb = "Chosen";
-      background = Colors.red;
+      background = clred;
     } else {
       numb = id.toString();
-      background = Colors.grey.shade400;
+      background = cltx;
     }
     return GestureDetector(
       onTap: () {
