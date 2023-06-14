@@ -1,12 +1,12 @@
 import '../../presentation/config/constants.dart';
+import '../../presentation/config/navigation/global_nav.dart';
 
 class GeneralUtil {
   static Future<String> getAppName() async {
     // PackageInfo packageInfo = await PackageInfo.fromPlatform();
     // String appName = packageInfo.appName;
     String appName = 'macf.db';
-    return removeSpaces(
-        appName); //For Future Financial Facts this needs to be fixed for upgrades
+    return removeSpaces(appName); //For Future Financial Facts this needs to be fixed for upgrades
   }
 
   static String removeSpaces(String toRemove) {
@@ -26,14 +26,17 @@ class GeneralUtil {
     DateTime d = DateTime.now();
     return DateTime(d.year, d.month, d.day - 1);
   }
-  static DateTime? timeFromEndDate(int intTime){
-    if(intTime == AccountNames.ongoing) return null;
+
+  static DateTime? timeFromEndDate(int intTime) {
+    if (intTime == AccountNames.ongoing) return null;
     return timeFromInt(intTime);
   }
-  static int? accountIdFromDatabase(int accountId){
-    if(accountId == AccountNames.no_account) return null;
+
+  static int? accountIdFromDatabase(int accountId) {
+    if (accountId == AccountNames.no_account) return null;
     return accountId;
   }
+
   //My decode of a date stored as an integer, converts it back to a date
   static DateTime timeFromInt(int intTime) {
     try {
@@ -57,14 +60,17 @@ class GeneralUtil {
       rethrow;
     }
   }
-  static int intForEndDate(DateTime? time){
-    if(time == null) return AccountNames.ongoing;
+
+  static int intForEndDate(DateTime? time) {
+    if (time == null) return AccountNames.ongoing;
     return intFromTime(time);
   }
-  static int accountIdIntoDatabase(int? accountId){
-    if(accountId == null) return AccountNames.no_account;
+
+  static int accountIdIntoDatabase(int? accountId) {
+    if (accountId == null) return AccountNames.no_account;
     return accountId;
   }
+
   //My encode of a date into an integer
   static int intFromTime(DateTime time) {
     try {
@@ -97,8 +103,7 @@ class GeneralUtil {
   }
 
   static DateTime oneYearFromNow() {
-    DateTime v = DateTime(
-        DateTime.now().year + 1, DateTime.now().month, DateTime.now().day);
+    DateTime v = DateTime(DateTime.now().year + 1, DateTime.now().month, DateTime.now().day);
     return v;
   }
 
@@ -137,4 +142,11 @@ class Parts {
   int type;
   int id;
   Parts({required this.type, required this.id});
+}
+
+int getNextAccountNumber() {
+  int currentMax = GlobalNav.instance.sharedPreferences!.getInt(AppConstants.maxAccountNumber)!;
+  currentMax++;
+  GlobalNav.instance.sharedPreferences!.setInt(AppConstants.maxAccountNumber, currentMax);
+  return currentMax;
 }

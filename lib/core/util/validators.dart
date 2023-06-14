@@ -2,6 +2,7 @@ import 'package:flutter/services.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'expiry_date_validator.dart';
 import 'luhn_check.dart';
+import 'format_extensions.dart';
 
 // VALIDATORS
 RequiredValidator isRequired(String error) {
@@ -18,6 +19,14 @@ MultiValidator passwordCheck({required String passwordToCheck}) {
 MultiValidator noAction() {
   return MultiValidator(<TextFieldValidator>[
     MinLengthValidator(0, errorText: ''),
+  ]);
+}
+
+MultiValidator justNumberAndLength({required String error, required int lenth}) {
+  return MultiValidator(<TextFieldValidator>[
+    RequiredValidator(errorText: error),
+    MinLengthValidator(lenth, errorText: error),
+    PatternValidator('[0-9]', errorText: error),
   ]);
 }
 
@@ -143,10 +152,10 @@ List<TextInputFormatter> get emailVerificationCodeFormatter => <TextInputFormatt
       LengthLimitingTextInputFormatter(6),
       FilteringTextInputFormatter.allow(RegExp('[0-9]')),
     ];
-List<TextInputFormatter> justNumberFormatter({required int numberCount}) => <TextInputFormatter>[
-      LengthLimitingTextInputFormatter(numberCount),
-      FilteringTextInputFormatter.allow(RegExp('[0-9]')),
-    ];
+// List<TextInputFormatter> justNumberFormatter({required int numberCount}) => <TextInputFormatter>[
+//       LengthLimitingTextInputFormatter(numberCount),
+//       FilteringTextInputFormatter.allow(RegExp('[0-9]')),
+//     ];
 List<TextInputFormatter> expiryDateFormatter() => <TextInputFormatter>[
       FilteringTextInputFormatter.allow(RegExp('[0-1]')),
     ];
@@ -156,4 +165,15 @@ List<TextInputFormatter> debitCardFormatter() => <TextInputFormatter>[
     ];
 List<TextInputFormatter> expiryDateInputFormatter() => <TextInputFormatter>[
       ExpiryDateFormatter(),
+    ];
+List<TextInputFormatter> get justNumberFormatter => <TextInputFormatter>[
+      FilteringTextInputFormatter.allow(
+        RegExp('[0-9.]'),
+      ),
+      TwoDecimalPlacesInputFormatter(),
+    ];
+List<TextInputFormatter> justIntegerFormatter() => <TextInputFormatter>[
+      FilteringTextInputFormatter.allow(
+        RegExp('[0-9]'),
+      ),
     ];

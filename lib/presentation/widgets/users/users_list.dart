@@ -3,9 +3,18 @@ import '../../../domain/entities/user.dart';
 import '../../../domain/usecases/calls.dart';
 import 'user_list_tile.dart';
 
-class UserList extends StatelessWidget {
+class UserList extends StatefulWidget {
   final List<User> users;
   const UserList(this.users, {Key? key}) : super(key: key);
+
+  @override
+  State<UserList> createState() => _UserListState();
+}
+
+class _UserListState extends State<UserList> {
+  void refreshMe() async {
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,9 +58,9 @@ class UserList extends StatelessWidget {
           SliverList(
             delegate: SliverChildBuilderDelegate(
               (_, index) {
-                return UserListTile(users[index]);
+                return UserListTile(widget.users[index], refreshMe);
               },
-              childCount: users.length,
+              childCount: widget.users.length,
             ),
           ),
         ],

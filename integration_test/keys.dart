@@ -8,3 +8,5 @@ const userPasswordCheck = Key('userPasswordCheckKey');
 // account
 const accountNameKey = Key('accountNameKey');
 const accountDescriptionKey = Key('accountDescriptionKey');
+const accountBalanceKey = Key('accountBalanceKey');
+const accountUsedInCashFlow = Key('accountUsedInCashFlow');

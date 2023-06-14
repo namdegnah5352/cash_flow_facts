@@ -3,12 +3,13 @@ import '../../../domain/entities/user.dart';
 import '../../../domain/usecases/calls.dart';
 import '../../config/navigation/global_nav.dart';
 import '../../config/style/app_colors.dart';
+import '../../config/constants.dart';
 
 class UserListTile extends StatelessWidget {
-  @required
+  final Function refresh;
   final User user;
 
-  const UserListTile(this.user, {Key? key}) : super(key: key);
+  const UserListTile(this.user, this.refresh, {Key? key}) : super(key: key);
 
   Widget _isDefaultUser(BuildContext context, int id, int duc) {
     String numb;
@@ -22,7 +23,8 @@ class UserListTile extends StatelessWidget {
     }
     return GestureDetector(
       onTap: () {
-        // sl<SharedPreferences>().setInt(AppConstants.userId, user.id);
+        GlobalNav.instance.sharedPreferences!.setInt(AppConstants.userId, user.id);
+        refresh();
       },
       child: CircleAvatar(
           backgroundColor: background,
@@ -44,8 +46,7 @@ class UserListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     int id = user.id;
-    // int duc = sl<SharedPreferences>().getInt(AppConstants.userId)!;
-    int duc = 1;
+    int duc = GlobalNav.instance.sharedPreferences!.getInt(AppConstants.userId)!;
     return Column(
       children: <Widget>[
         ListTile(

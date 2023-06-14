@@ -18,6 +18,7 @@ class _AppDrawerState extends State<AppDrawer> {
         setState(() {
           navDrawerIndex = selectedIndex;
           Destination.values[navDrawerIndex].function();
+          Navigator.pop(context);
         });
       },
       selectedIndex: navDrawerIndex,
@@ -45,7 +46,7 @@ class _AppDrawerState extends State<AppDrawer> {
 enum Destination {
   home('Home', Icon(Icons.home_outlined), Icon(Icons.home), loadHome),
   user('not here', Icon(Icons.inbox_outlined), Icon(Icons.inbox), loadHome),
-  account('Accounts', Icon(Icons.send_outlined), Icon(Icons.send), loadHome),
+  account('Accounts', Icon(Icons.send_outlined), Icon(Icons.send), loadAccounts),
   favorites('Users', Icon(Icons.bookmark_border), Icon(Icons.bookmark), loadUsers),
   trash('Recurrences', Icon(Icons.favorite_outline), Icon(Icons.favorite), loadHome),
   family('Transaction', Icon(Icons.delete_outline), Icon(Icons.delete), loadHome),

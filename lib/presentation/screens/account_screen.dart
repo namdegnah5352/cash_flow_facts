@@ -33,8 +33,17 @@ class _AccountScreenState extends State<AccountScreen> {
     _accountDescriptionController = TextEditingController();
     _accountBalanceController = TextEditingController();
     _usedInCashFlowController = TextEditingController();
+    controllers.addAll([
+      _accountNameController,
+      _accountDescriptionController,
+      _accountBalanceController,
+      _usedInCashFlowController,
+    ]);
     validators.addAll([accountNameValidator, accountDescriptionValidator]);
     formatters.addAll([null, null]);
+    _accountNameController.text = widget.account.accountName;
+    _accountDescriptionController.text = widget.account.description;
+    _accountBalanceController.text = widget.account.balance.toString();
     super.initState();
   }
 
@@ -67,9 +76,9 @@ class _AccountScreenState extends State<AccountScreen> {
                 if (!isValid) return;
                 formKey.currentState!.save();
                 if (widget.account.id == AppConstants.createIDConstant) {
-                  // GlobalNav.instance.userLink!.linkCreateUser(widget.user);
+                  GlobalNav.instance.accountLink!.linkCreateAccount(widget.account);
                 } else {
-                  // GlobalNav.instance.userLink!.linkUpdateUser(widget.user);
+                  GlobalNav.instance.accountLink!.linkUpdateAccount(widget.account);
                 }
                 Navigator.pop(context);
               });
@@ -106,9 +115,28 @@ class _AccountScreenState extends State<AccountScreen> {
                   ],
                 );
               }),
-
-              // balance needs numeric keyboard
-              // in cash flow, material
+              const SizedBox(height: 20),
+              TextFormField(
+                key: Key(OtherFields.balance.key),
+                controller: _accountBalanceController,
+                inputFormatters: justNumberFormatter,
+                keyboardType: TextInputType.number,
+                decoration: InputDecoration(
+                  filled: true,
+                  labelText: OtherFields.balance.labelText,
+                  hintText: OtherFields.balance.hintText,
+                  helperText: OtherFields.balance.helperText,
+                  border: const OutlineInputBorder(),
+                ),
+              ),
+              Switch(
+                  key: Key(OtherFields.usedInCashFlow.key),
+                  value: widget.account.usedForCashFlow,
+                  onChanged: (value) {
+                    setState(() {
+                      widget.account.usedForCashFlow = value;
+                    });
+                  }),
             ],
           ),
         ),
@@ -123,6 +151,17 @@ enum UserFields {
       'accountDescriptionKey', 'Account Description', 'enter the description', 'description must contain at least 2 characters');
 
   const UserFields(this.key, this.labelText, this.hintText, this.helperText);
+  final String key;
+  final String labelText;
+  final String hintText;
+  final String helperText;
+}
+
+enum OtherFields {
+  balance('accountBalanceKey', 'Account balance', 'enter your balance', 'the balance for this account'),
+  usedInCashFlow('accountUsedInCashFlow', '', '', '');
+
+  const OtherFields(this.key, this.labelText, this.hintText, this.helperText);
   final String key;
   final String labelText;
   final String hintText;
