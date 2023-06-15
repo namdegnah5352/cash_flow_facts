@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../../domain/usecases/user_calls.dart';
+import '../../domain/usecases/account_calls.dart';
 import '../../domain/usecases/calls.dart';
 
 class AppDrawer extends StatefulWidget {

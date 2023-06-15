@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../domain/entities/user.dart';
-import '../../../domain/usecases/calls.dart';
+import '../../../domain/usecases/user_calls.dart';
 import 'user_list_tile.dart';
 
 class UserList extends StatefulWidget {

@@ -1,4 +1,5 @@
-import 'package:cash_flow_facts/domain/usecases/calls.dart';
+import 'package:cash_flow_facts/domain/usecases/user_calls.dart';
+import '../../../domain/usecases/calls.dart';
 import 'package:fpdart/fpdart.dart';
 import '../../../domain/usecases/user_usecase.dart';
 import '../../../domain/entities/user.dart';
@@ -19,6 +20,16 @@ class UserLink {
   void linkGetUsers() async {
     var either = await userUser.getUsers();
     _linkUsers(either);
+  }
+
+  Future<List<User>> getListUsers() async {
+    List<User> users = [];
+    var either = await userUser.getUsers();
+    either.fold(
+      (failure) => loadErrorHandler(failure.message),
+      (listUsers) => users = listUsers,
+    );
+    return users;
   }
 
   void linkDeleteUser(int id) async {

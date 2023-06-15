@@ -1,5 +1,3 @@
-import 'package:cash_flow_facts/presentation/link/user/account_link.dart';
-
 import '../../../data/models/d_base.dart';
 import 'app_navigation.dart';
 import '../../../domain/entities/settings_data.dart';
@@ -17,8 +15,8 @@ import '../../../core/usecases/usecase.dart';
 import '../../../domain/usecases/user_usecase.dart';
 import '../../../domain/usecases/account_usecase.dart';
 //Link
-import '../../link/user/user_link.dart';
-import '../../link/accounts/account_link.dart';
+import '../../link/user_link.dart';
+import '../../link/account_link.dart';
 
 class GlobalNav {
   late final SharedPreferences? sharedPreferences;

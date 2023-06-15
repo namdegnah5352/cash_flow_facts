@@ -20,6 +20,10 @@ class AccountUser extends UseCase<List<Account>, Params> {
     return await repository.accountList(userId);
   }
 
+  Future<Either<Failure, Account>> shareAccount(Account account, int userId) async {
+    return await repository.shareAccount(account, userId);
+  }
+
   Future<Either<Failure, List<Account>>> insertAccount(Account account) async {
     return await repository.insertAccount(account);
   }

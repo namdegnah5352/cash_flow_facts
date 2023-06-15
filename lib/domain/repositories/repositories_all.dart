@@ -16,4 +16,5 @@ abstract class AccountRepository {
   Future<Either<Failure, List<Account>>> accountList(int userId);
   Future<Either<Failure, List<Account>>> deleteAccount(Account account);
   Future<Either<Failure, List<Account>>> updateAccount(Account account);
+  Future<Either<Failure, Account>> shareAccount(Account account, int userId);
 }

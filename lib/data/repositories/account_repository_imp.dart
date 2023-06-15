@@ -3,12 +3,14 @@ import '../datasources/datasources.dart';
 import '../../core/errors/exceptions.dart';
 import '../../core/errors/failures.dart';
 import '../../domain/entities/accounts/account.dart';
+import '../../domain/entities/user.dart';
 import '../../domain/repositories/repositories_all.dart';
 import '../../presentation/config/constants.dart';
 import '../../core/util/general_util.dart';
 import '../../presentation/config/navigation/global_nav.dart';
 
-typedef _AccountOrFailure = Future<List<Account>> Function();
+typedef _AccountsOrFailure = Future<List<Account>> Function();
+typedef _AccountOrFailure = Future<Account> Function();
 
 class AccountRepositoryImp extends AccountRepository {
   final AppDataSource dataSource;
@@ -31,6 +33,18 @@ class AccountRepositoryImp extends AccountRepository {
   }
 
   @override
+  Future<Either<Failure, Account>> shareAccount(Account account, int userId) async {
+    try {
+      await dataSource.insert(UserAccountNames.tableName, _toUserAccountShared(account, userId));
+      return Right(account);
+    } on ServerException catch (error) {
+      return Left(ServerFailure(error.message));
+    } on Exception catch (error) {
+      return Left(ServerFailure(error.toString()));
+    }
+  }
+
+  @override
   Future<Either<Failure, List<Account>>> deleteAccount(Account account) async {
     await dataSource.delete(AccountNames.tableName, account.id);
     return await _getResults(() async {
@@ -46,10 +60,21 @@ class AccountRepositoryImp extends AccountRepository {
     });
   }
 
-  Future<Either<Failure, List<Account>>> _getResults(_AccountOrFailure accountOrFailure) async {
+  Future<Either<Failure, List<Account>>> _getResults(_AccountsOrFailure accountsOrFailure) async {
     try {
-      final accountList = await accountOrFailure();
+      final accountList = await accountsOrFailure();
       return Right(accountList);
+    } on ServerException catch (error) {
+      return Left(ServerFailure(error.message));
+    } on Exception catch (error) {
+      return Left(ServerFailure(error.toString()));
+    }
+  }
+
+  Future<Either<Failure, Account>> _getResult(_AccountOrFailure accountOrFailure) async {
+    try {
+      final account = await accountOrFailure();
+      return Right(account);
     } on ServerException catch (error) {
       return Left(ServerFailure(error.message));
     } on Exception catch (error) {
@@ -99,6 +124,13 @@ class AccountRepositoryImp extends AccountRepository {
     return {
       UserAccountNames.user_id: GlobalNav.instance.sharedPreferences!.getInt(AppConstants.userId)!,
       UserAccountNames.account_id: accountId,
+    };
+  }
+
+  Map<String, Object> _toUserAccountShared(Account account, int userId) {
+    return {
+      UserAccountNames.user_id: userId,
+      UserAccountNames.account_id: account.id,
     };
   }
 }

@@ -1,6 +1,7 @@
 import 'package:cash_flow_facts/presentation/config/constants.dart';
 import 'package:flutter/material.dart';
 import '../../domain/entities/accounts/account.dart';
+import '../../domain/entities/user.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import '../../core/util/validators.dart';
 import 'package:flutter/services.dart';
@@ -8,7 +9,8 @@ import '../config/navigation/global_nav.dart';
 
 class AccountScreen extends StatefulWidget {
   final Account account;
-  const AccountScreen({required this.account, super.key});
+  final List<User> users;
+  const AccountScreen({required this.account, required this.users, super.key});
 
   @override
   State<AccountScreen> createState() => _AccountScreenState();
@@ -142,6 +144,52 @@ class _AccountScreenState extends State<AccountScreen> {
         ),
       ),
     );
+  }
+
+  Future<int> _showUsersDialog(BuildContext context) async {
+    return await showDialog(
+      context: context,
+      builder: (_) => SimpleDialog(
+        title: const Text('Users Dialog'),
+        contentPadding: EdgeInsets.all(15),
+        elevation: 2.0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(
+            8.0,
+          ),
+          side: BorderSide(width: 2.0, color: Colors.grey),
+        ), // Could this be central? Why is it bold and bigger? Colour maybe
+        children: _convertUsers(context),
+      ),
+    );
+  }
+
+  List<Widget> _convertUsers(BuildContext context) {
+    List<Widget> lsdo = [];
+    int user_id = 1;
+    for (User user in widget.users) {
+      if (user.id != user_id) {
+        lsdo.add(Row(
+          children: <Widget>[
+            SizedBox(
+              width: 5,
+            ),
+            SizedBox(
+              width: 3,
+            ),
+            SimpleDialogOption(
+              child: Text(user.name),
+              onPressed: () => Navigator.pop(context, user.id),
+            ),
+          ],
+        ));
+        lsdo.add(Divider(
+          thickness: 1,
+        ));
+      }
+    }
+    lsdo.removeLast();
+    return lsdo;
   }
 }
 
