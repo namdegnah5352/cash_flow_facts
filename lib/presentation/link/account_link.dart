@@ -3,6 +3,7 @@ import '../../../domain/usecases/account_calls.dart';
 import 'package:fpdart/fpdart.dart';
 import '../../../domain/usecases/account_usecase.dart';
 import '../../../domain/entities/accounts/account.dart';
+import '../../../domain/entities/user.dart';
 import '../../../core/errors/failures.dart';
 import '../config/navigation/global_nav.dart';
 import '../config/constants.dart';
@@ -56,8 +57,8 @@ class AccountLink {
     _linkAccounts(either);
   }
 
-  void linkShareAccount(Account account, int userId) async {
-    var either = await accountUser.shareAccount(account, userId);
+  void linkShareAccount(Account account, User user) async {
+    var either = await accountUser.shareAccount(account, user);
     _linkAccount(either);
   }
 }

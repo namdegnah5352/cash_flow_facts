@@ -58,6 +58,15 @@ class _AccountScreenState extends State<AccountScreen> {
     super.dispose();
   }
 
+  void _shareAccount(BuildContext context) {
+    _showUsersDialog(context).then((result) async {
+      if (result != null) {
+        Navigator.pop(context);
+        GlobalNav.instance.accountLink!.linkShareAccount(widget.account, result);
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,6 +75,11 @@ class _AccountScreenState extends State<AccountScreen> {
         title: const Text('Account'),
         backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
         actions: [
+          IconButton.filledTonal(
+            icon: const Icon(Icons.share_outlined),
+            selectedIcon: const Icon(Icons.share),
+            onPressed: () => _shareAccount(context),
+          ),
           IconButton.filledTonal(
             icon: const Icon(Icons.save_outlined),
             selectedIcon: const Icon(Icons.save),
@@ -132,13 +146,14 @@ class _AccountScreenState extends State<AccountScreen> {
                 ),
               ),
               Switch(
-                  key: Key(OtherFields.usedInCashFlow.key),
-                  value: widget.account.usedForCashFlow,
-                  onChanged: (value) {
-                    setState(() {
-                      widget.account.usedForCashFlow = value;
-                    });
-                  }),
+                key: Key(OtherFields.usedInCashFlow.key),
+                value: widget.account.usedForCashFlow,
+                onChanged: (value) {
+                  setState(() {
+                    widget.account.usedForCashFlow = value;
+                  });
+                },
+              ),
             ],
           ),
         ),
@@ -146,19 +161,20 @@ class _AccountScreenState extends State<AccountScreen> {
     );
   }
 
-  Future<int> _showUsersDialog(BuildContext context) async {
+  Future<User?> _showUsersDialog(BuildContext context) async {
     return await showDialog(
+      barrierDismissible: true,
       context: context,
       builder: (_) => SimpleDialog(
         title: const Text('Users Dialog'),
-        contentPadding: EdgeInsets.all(15),
+        contentPadding: const EdgeInsets.all(15),
         elevation: 2.0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(
             8.0,
           ),
-          side: BorderSide(width: 2.0, color: Colors.grey),
-        ), // Could this be central? Why is it bold and bigger? Colour maybe
+          side: const BorderSide(width: 2.0, color: Colors.grey),
+        ),
         children: _convertUsers(context),
       ),
     );
@@ -166,26 +182,20 @@ class _AccountScreenState extends State<AccountScreen> {
 
   List<Widget> _convertUsers(BuildContext context) {
     List<Widget> lsdo = [];
-    int user_id = 1;
+    int userId = GlobalNav.instance.sharedPreferences!.getInt(AppConstants.userId)!;
     for (User user in widget.users) {
-      if (user.id != user_id) {
+      if (user.id != userId) {
         lsdo.add(Row(
           children: <Widget>[
-            SizedBox(
-              width: 5,
-            ),
-            SizedBox(
-              width: 3,
-            ),
+            const SizedBox(width: 5),
+            const SizedBox(width: 3),
             SimpleDialogOption(
               child: Text(user.name),
-              onPressed: () => Navigator.pop(context, user.id),
+              onPressed: () => Navigator.pop<User>(context, user),
             ),
           ],
         ));
-        lsdo.add(Divider(
-          thickness: 1,
-        ));
+        lsdo.add(const Divider(thickness: 1));
       }
     }
     lsdo.removeLast();

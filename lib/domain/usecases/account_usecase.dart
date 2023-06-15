@@ -4,6 +4,7 @@ import '../../data/models/params.dart';
 import '../../core/errors/failures.dart';
 import '../../core/usecases/usecase.dart';
 import '../entities/accounts/account.dart';
+import '../entities/user.dart';
 import '../repositories/repositories_all.dart';
 import '../../presentation/config/navigation/global_nav.dart';
 
@@ -20,8 +21,8 @@ class AccountUser extends UseCase<List<Account>, Params> {
     return await repository.accountList(userId);
   }
 
-  Future<Either<Failure, Account>> shareAccount(Account account, int userId) async {
-    return await repository.shareAccount(account, userId);
+  Future<Either<Failure, Account>> shareAccount(Account account, User user) async {
+    return await repository.shareAccount(account, user);
   }
 
   Future<Either<Failure, List<Account>>> insertAccount(Account account) async {

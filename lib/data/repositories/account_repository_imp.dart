@@ -33,9 +33,9 @@ class AccountRepositoryImp extends AccountRepository {
   }
 
   @override
-  Future<Either<Failure, Account>> shareAccount(Account account, int userId) async {
+  Future<Either<Failure, Account>> shareAccount(Account account, User user) async {
     try {
-      await dataSource.insert(UserAccountNames.tableName, _toUserAccountShared(account, userId));
+      await dataSource.insert(UserAccountNames.tableName, _toUserAccountShared(account, user));
       return Right(account);
     } on ServerException catch (error) {
       return Left(ServerFailure(error.message));
@@ -127,9 +127,9 @@ class AccountRepositoryImp extends AccountRepository {
     };
   }
 
-  Map<String, Object> _toUserAccountShared(Account account, int userId) {
+  Map<String, Object> _toUserAccountShared(Account account, User user) {
     return {
-      UserAccountNames.user_id: userId,
+      UserAccountNames.user_id: user.id,
       UserAccountNames.account_id: account.id,
     };
   }
