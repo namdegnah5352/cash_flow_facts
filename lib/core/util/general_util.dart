@@ -150,3 +150,11 @@ int getNextAccountNumber() {
   GlobalNav.instance.sharedPreferences!.setInt(AppConstants.maxAccountNumber, currentMax);
   return currentMax;
 }
+
+int numberOfDaysThisYear() {
+  int year = DateTime.now().year;
+  if ((year % 4 == 0) && (year % 100 != 0) || (year % 400 == 0)) {
+    return 366;
+  }
+  return 365;
+}

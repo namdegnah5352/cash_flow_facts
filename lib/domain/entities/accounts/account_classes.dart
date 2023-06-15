@@ -9,9 +9,17 @@ abstract class InterestPerDay {
   double getTempInterestAndTransfer();
   DateTime? get accountEnd;
   DateTime? get accountStart;
-  List<CashAction> getActions(FactsBase factsbase, DateTime startDate, DateTime finishDate);
+  // List<CashAction> getActions(FactsBase factsbase, DateTime startDate, DateTime finishDate);
 }
+
 class InterestTrans extends TransBase {
-  InterestTrans({required super.id, required super.user_id, required super.title, required super.description, required super.plannedDate, required super.amount, required super.processed});
-  
+  InterestTrans({
+    required super.id,
+    required super.user_id,
+    required super.title,
+    required super.description,
+    required super.plannedDate,
+    required super.amount,
+    required super.processed,
+  });
 }
