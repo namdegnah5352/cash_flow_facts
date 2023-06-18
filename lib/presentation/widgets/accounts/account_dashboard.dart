@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../domain/entities/accounts/account.dart';
 import '../../config/navigation/global_nav.dart';
 import 'accounts_list.dart';
+import '../transactions/transaction_list.dart';
 import '../../config/enums.dart';
 
 GlobalNav globalNav = GlobalNav.instance;
@@ -16,10 +17,12 @@ class AccountDashboard extends StatefulWidget {
 
 class _AccountDashboardState extends State<AccountDashboard> {
   int _selectedIndex = 0;
+  int _accountId = 0;
+
   void _onItemTapped(int index) async {
     setState(() {
       if (index == NavIndex.accounts.index && widget.accounts.isNotEmpty) {
-        widgetOptions[NavIndex.accounts.index] = AccountList(widget.accounts, setAccountTab);
+        widgetOptions[NavIndex.accounts.index] = AccountList(widget.accounts, setAccountTab, getSelectedIndex, setAccountId);
       }
       _selectedIndex = index;
     });
@@ -32,9 +35,12 @@ class _AccountDashboardState extends State<AccountDashboard> {
     });
   }
 
+  void setAccountId(int index) => _accountId = index;
+  int getSelectedIndex() => _accountId;
+
   @override
   void initState() {
-    _onItemTapped(NavIndex.accounts.index);
+    widgetOptions[NavIndex.accounts.index] = AccountList(widget.accounts, setAccountTab, getSelectedIndex, setAccountId);
     super.initState();
   }
 
@@ -99,7 +105,7 @@ class NoTransactions extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      body: Center(child: Text('No Transactions please create one or select and account')),
+      body: Center(child: Text('No Transactions please create one or select an account')),
     );
   }
 }

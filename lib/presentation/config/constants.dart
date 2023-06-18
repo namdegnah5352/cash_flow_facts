@@ -251,8 +251,8 @@ class AddInterestNames {
 }
 
 List<AccountType> types = [
-  AccountType(id: 1, typeName: 'Account', iconPath: 'assets/images/accounts/ac03.jpg', loadThis: returnNewAccount(Account.startUp())),
-  AccountType(id: 2, typeName: 'Savings', iconPath: 'assets/images/accounts/ac01.jpg', loadThis: returnNewAccount(Account.startUp())),
-  AccountType(id: 3, typeName: 'Loan', iconPath: 'assets/images/accounts/ac06.jpg', loadThis: returnNewAccount(Account.startUp())),
-  AccountType(id: 4, typeName: 'Credit Card', iconPath: 'assets/images/accounts/ac04.jpg', loadThis: returnNewAccount(Account.startUp()))
+  AccountType(id: 1, typeName: 'Account', iconPath: 'assets/images/accounts/ac03.jpg', loadThis: returAccountScreen(Account.startUp())),
+  AccountType(id: 2, typeName: 'Savings', iconPath: 'assets/images/accounts/ac01.jpg', loadThis: returAccountScreen(Account.startUp())),
+  AccountType(id: 3, typeName: 'Loan', iconPath: 'assets/images/accounts/ac06.jpg', loadThis: returAccountScreen(Account.startUp())),
+  AccountType(id: 4, typeName: 'Credit Card', iconPath: 'assets/images/accounts/ac04.jpg', loadThis: returAccountScreen(Account.startUp()))
 ];

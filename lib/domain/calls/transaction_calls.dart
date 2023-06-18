@@ -2,7 +2,10 @@ import '../../presentation/config/navigation/navigation_paths.dart';
 import '../../presentation/config/navigation/global_nav.dart';
 import '../entities/user.dart';
 import '../entities/transaction.dart';
+import '../entities/accounts/account.dart';
 import 'package:cash_flow_facts/presentation/config/constants.dart';
+import 'package:flutter/material.dart';
+import '../../presentation/widgets/transactions/transaction_list.dart';
 
 GlobalNav globalNav = GlobalNav.instance;
 
@@ -32,6 +35,11 @@ Future<void> loadTransaction(Transaction transaction) async {
   ({Transaction transaction, List<User> users}) parts;
   parts = (transaction: transaction, users: users);
   await globalNav.appNavigation.pushNamed(NavigationPaths.transaction, arguments: parts);
+}
+
+Future<Widget> returTransactionsScreen(Account account) async {
+  List<Transaction> transactions = await globalNav.transactionLink!.getListTransactions(account.id);
+  return TransactionList(transactions);
 }
 
 Future<void> loadTransactionList(List<Transaction> transactions) async {

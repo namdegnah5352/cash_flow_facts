@@ -79,10 +79,13 @@ class _AccountScreenState extends State<AccountScreen> {
         backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
         actions: [
           IconButton.filledTonal(
-            icon: const Icon(Icons.share_outlined),
-            selectedIcon: const Icon(Icons.share),
-            onPressed: () => _shareAccount(context),
-          ),
+              icon: const Icon(Icons.arrow_back_outlined),
+              selectedIcon: const Icon(Icons.arrow_back),
+              onPressed: () {
+                Navigator.pop(context);
+                loadAccounts();
+              }),
+          Spacer(),
           IconButton.filledTonal(
             icon: const Icon(Icons.save_outlined),
             selectedIcon: const Icon(Icons.save),

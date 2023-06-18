@@ -1,3 +1,5 @@
+import 'package:cash_flow_facts/presentation/widgets/accounts/account_dashboard.dart';
+
 import '../../presentation/config/navigation/navigation_paths.dart';
 import '../../presentation/config/navigation/global_nav.dart';
 import '../entities/user.dart';
@@ -12,8 +14,7 @@ GlobalNav globalNav = GlobalNav.instance;
 
 // Account
 void navigateToNewAccount() async {
-  await loadAccount(
-      Account(id: AppConstants.createIDConstant, accountName: '', description: '', balance: 0.0, usedForCashFlow: true));
+  await loadAccount(Account(id: AppConstants.createIDConstant, accountName: '', description: '', balance: 0.0, usedForCashFlow: true));
 }
 
 void navigateToExistingAccount(Account account) async {
@@ -31,9 +32,14 @@ Future<void> loadAccount(Account account) async {
   await globalNav.appNavigation.pushNamed(NavigationPaths.account, arguments: parts);
 }
 
-Future<Widget> returnNewAccount(Account account) async {
+Future<Widget> returAccountScreen(Account account) async {
   List<User> users = await globalNav.userLink!.getListUsers();
   return AccountScreen(account: account, users: users);
+}
+
+Future<Widget> returnDashBoadScreen() async {
+  List<Account> accounts = await globalNav.accountLink!.getListAccounts();
+  return AccountDashboard(accounts);
 }
 
 Future<void> loadAccountList(List<Account> accounts) async {

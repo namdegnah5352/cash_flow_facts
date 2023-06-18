@@ -1,13 +1,35 @@
+import 'package:cash_flow_facts/presentation/config/constants.dart';
 import 'package:flutter/material.dart';
 import '../../../domain/calls/account_calls.dart';
 import '../../../domain/entities/accounts/account.dart';
 import 'account_list_tile.dart';
 import '../../config/enums.dart';
 
-class AccountList extends StatelessWidget {
+class AccountList extends StatefulWidget {
   final List<Account> accounts;
-  final Function callback;
-  const AccountList(this.accounts, this.callback, {Key? key}) : super(key: key);
+  final Function dashboardCallback;
+  final Function dashboardAccountIndex;
+  final Function setAccountIdOnDashboard;
+  const AccountList(this.accounts, this.dashboardCallback, this.dashboardAccountIndex, this.setAccountIdOnDashboard, {Key? key}) : super(key: key);
+
+  @override
+  State<AccountList> createState() => _AccountListState();
+}
+
+class _AccountListState extends State<AccountList> {
+  int? accountId;
+
+  @override
+  void initState() {
+    accountId ??= widget.dashboardAccountIndex();
+    super.initState();
+  }
+
+  void listCallback(int index) async {
+    accountId = index;
+    widget.setAccountIdOnDashboard(index);
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +47,7 @@ class AccountList extends StatelessWidget {
                     showAccountTypeDialog(context).then(
                       (result) {
                         if (result != null) {
-                          callback(result.loadThis, NavIndex.accounts.index);
+                          widget.dashboardCallback(result.loadThis, NavIndex.accounts.index);
                         }
                       },
                     );
@@ -56,57 +78,18 @@ class AccountList extends StatelessWidget {
           SliverList(
             delegate: SliverChildBuilderDelegate(
               (_, index) {
-                return AccountListTile(accounts[index]);
+                return AccountListTile(
+                  account: widget.accounts[index],
+                  listCallback: listCallback,
+                  dashboardCallback: widget.dashboardCallback,
+                  selectedAccountId: accountId!,
+                );
               },
-              childCount: accounts.length,
+              childCount: widget.accounts.length,
             ),
           ),
         ],
       ),
     );
   }
-
-  // Future<int> _showAccountTypeDialog(BuildContext context) async {
-  //   return await showDialog(
-  //     context: context,
-  //     builder: (_) => SimpleDialog(
-  //       title: Text('Account Types Dialog'), // Could this be central? Why is it bold and bigger? Colour maybe
-  //       children: _convertAccountType(context),
-  //       contentPadding: EdgeInsets.all(15),
-  //       elevation: 2.0,
-  //       shape: RoundedRectangleBorder(
-  //         borderRadius: BorderRadius.circular(
-  //           8.0,
-  //         ),
-  //         side: BorderSide(width: 2.0, color: Colors.grey),
-  //       ),
-  //     ),
-  //   );
-  // }
-
-  // List<Widget> _convertAccountType(BuildContext context) {
-  //   List<Widget> lsdo = [];
-  //   for (AccountType accountType in db.accountTypes!) {
-  //     lsdo.add(Row(
-  //       children: <Widget>[
-  //         SizedBox(
-  //           width: 5,
-  //         ),
-  //         IconListImage(accountType.iconPath, 25),
-  //         SizedBox(
-  //           width: 3,
-  //         ),
-  //         SimpleDialogOption(
-  //           child: Text(accountType.typeName),
-  //           onPressed: () => Navigator.pop(context, accountType.id),
-  //         ),
-  //       ],
-  //     ));
-  //     lsdo.add(Divider(
-  //       thickness: 1,
-  //     ));
-  //   }
-  //   if (lsdo.isNotEmpty) lsdo.removeLast();
-  //   return lsdo;
-  // }
 }

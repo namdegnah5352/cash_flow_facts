@@ -13,6 +13,8 @@ class TransactionList extends StatelessWidget {
       body: CustomScrollView(
         slivers: <Widget>[
           SliverAppBar(
+            leading: null,
+            automaticallyImplyLeading: false,
             iconTheme: const IconThemeData(color: Colors.black26),
             actions: <Widget>[
               IconButton(
