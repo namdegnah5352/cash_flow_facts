@@ -25,9 +25,7 @@ class AccountListTile extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(2),
         child: Text(
-          numb.format(
-            account.balance,
-          ),
+          numb.format(account.balance),
           style: const TextStyle(
             color: Colors.white,
             fontSize: 11,

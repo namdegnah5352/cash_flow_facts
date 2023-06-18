@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../domain/entities/accounts/account.dart';
 import '../../config/navigation/global_nav.dart';
 import 'accounts_list.dart';
+import '../../config/enums.dart';
 
 GlobalNav globalNav = GlobalNav.instance;
 
@@ -24,10 +25,10 @@ class _AccountDashboardState extends State<AccountDashboard> {
     });
   }
 
-  void setAccountTab(Future<Widget> futureWidget) async {
+  void setAccountTab(Future<Widget> futureWidget, int index) async {
     Widget widget = await futureWidget;
     setState(() {
-      widgetOptions[NavIndex.accounts.index] = widget;
+      widgetOptions[index] = widget;
     });
   }
 
@@ -52,7 +53,8 @@ class _AccountDashboardState extends State<AccountDashboard> {
   }
 }
 
-List<Widget> widgetOptions = [const NoAccouts(), const NoTransactions(), const NoMoveMoney(), const NoSettings()];
+List<Widget> widgetOptions = [const NoAccounts(), const NoTransactions(), const NoMoveMoney(), const NoSettings()];
+
 const List<NavigationDestination> appBarDestinations = [
   NavigationDestination(
     tooltip: '',
@@ -80,8 +82,8 @@ const List<NavigationDestination> appBarDestinations = [
   )
 ];
 
-class NoAccouts extends StatelessWidget {
-  const NoAccouts({super.key});
+class NoAccounts extends StatelessWidget {
+  const NoAccounts({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -90,8 +92,6 @@ class NoAccouts extends StatelessWidget {
     );
   }
 }
-
-enum NavIndex { accounts, transactions, movemoney, settings }
 
 class NoTransactions extends StatelessWidget {
   const NoTransactions({super.key});

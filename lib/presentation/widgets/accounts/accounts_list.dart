@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../domain/calls/account_calls.dart';
 import '../../../domain/entities/accounts/account.dart';
 import 'account_list_tile.dart';
+import '../../config/enums.dart';
 
 class AccountList extends StatelessWidget {
   final List<Account> accounts;
@@ -24,7 +25,7 @@ class AccountList extends StatelessWidget {
                     showAccountTypeDialog(context).then(
                       (result) {
                         if (result != null) {
-                          callback(result.loadThis);
+                          callback(result.loadThis, NavIndex.accounts.index);
                         }
                       },
                     );
