@@ -1,6 +1,7 @@
 import 'package:fpdart/fpdart.dart';
 import '../entities/user.dart';
 import '../entities/accounts/account.dart';
+import '../entities/transaction.dart';
 import '../../core/errors/failures.dart';
 
 abstract class UserRepository {
@@ -17,4 +18,11 @@ abstract class AccountRepository {
   Future<Either<Failure, List<Account>>> deleteAccount(Account account);
   Future<Either<Failure, List<Account>>> updateAccount(Account account);
   Future<Either<Failure, Account>> shareAccount(Account account, User user);
+}
+
+abstract class TransactionRepository {
+  Future<Either<Failure, List<Transaction>>> insertTransaction(Transaction transaction);
+  Future<Either<Failure, List<Transaction>>> transactionList(int userId, int accountId);
+  Future<Either<Failure, List<Transaction>>> deleteTransaction(Transaction transaction);
+  Future<Either<Failure, List<Transaction>>> updateTransaction(Transaction transaction);
 }

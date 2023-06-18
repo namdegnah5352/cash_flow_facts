@@ -1,5 +1,5 @@
-import 'package:cash_flow_facts/domain/usecases/calls.dart';
-import '../../../domain/usecases/account_calls.dart';
+import 'package:cash_flow_facts/domain/calls/calls.dart';
+import '../../domain/calls/account_calls.dart';
 import 'package:fpdart/fpdart.dart';
 import '../../../domain/usecases/account_usecase.dart';
 import '../../../domain/entities/accounts/account.dart';
@@ -20,6 +20,13 @@ class AccountLink {
     );
   }
 
+  void _linkAccountDashboard(Either<Failure, List<Account>> either) {
+    either.fold(
+      (failure) => loadErrorHandler(failure.message),
+      (listAccounts) => loadAccountDashboard(listAccounts),
+    );
+  }
+
   void _linkAccount(Either<Failure, Account> either) {
     either.fold(
       (failure) => loadErrorHandler(failure.message),
@@ -28,6 +35,11 @@ class AccountLink {
   }
 
   void linkGetAccounts() async {
+    var either = await accountUser.getAccounts(GlobalNav.instance.sharedPreferences!.getInt(AppConstants.userId)!);
+    _linkAccountDashboard(either);
+  }
+
+  void linkGetAccountsForDashboard() async {
     var either = await accountUser.getAccounts(GlobalNav.instance.sharedPreferences!.getInt(AppConstants.userId)!);
     _linkAccounts(either);
   }
@@ -44,17 +56,17 @@ class AccountLink {
 
   void linkDeleteAccount(Account account) async {
     var either = await accountUser.deleteAccount(account);
-    _linkAccounts(either);
+    _linkAccountDashboard(either);
   }
 
   void linkUpdateAccount(Account account) async {
     var either = await accountUser.updateAccount(account);
-    _linkAccounts(either);
+    _linkAccountDashboard(either);
   }
 
   void linkCreateAccount(Account account) async {
     var either = await accountUser.insertAccount(account);
-    _linkAccounts(either);
+    _linkAccountDashboard(either);
   }
 
   void linkShareAccount(Account account, User user) async {

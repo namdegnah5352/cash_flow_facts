@@ -3,6 +3,9 @@ import 'app_navigation.dart';
 import '../../../domain/entities/settings_data.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../constants.dart';
+import '../../../core/util/journey_list.dart';
+//Journey
+import '../../../domain/entities/transaction_journey.dart';
 //Datasource
 import '../../../data/datasources/datasources.dart';
 import '../../../data/datasources/local_data_source_imp.dart';
@@ -10,17 +13,21 @@ import '../../../data/datasources/local_data_source_imp.dart';
 import '../../../domain/repositories/repositories_all.dart';
 import '../../../data/repositories/user_repository_imp.dart';
 import '../../../data/repositories/account_repository_imp.dart';
+import '../../../data/repositories/transaction_repository_imp.dart';
 //Usecase
 import '../../../core/usecases/usecase.dart';
 import '../../../domain/usecases/user_usecase.dart';
 import '../../../domain/usecases/account_usecase.dart';
+import '../../../domain/usecases/transaction_usecase.dart';
 //Link
 import '../../link/user_link.dart';
 import '../../link/account_link.dart';
+import '../../link/transaction_link.dart';
 
 class GlobalNav {
   late final SharedPreferences? sharedPreferences;
   late final AppNavigation appNavigation;
+  late final JourneyList<Future<void> Function(Function), TransactionJourney> transactionJourney;
   SettingsData? settingsData;
   AppDataSource? appDataSource;
   //User
@@ -31,6 +38,10 @@ class GlobalNav {
   AccountRepository? accountRepository;
   AccountUser? accountUser;
   AccountLink? accountLink;
+  //Transaction
+  TransactionRepository? transactionRepository;
+  TransactionUser? transactionUser;
+  TransactionLink? transactionLink;
 
   static final GlobalNav instance = GlobalNav._internal();
 
@@ -46,6 +57,7 @@ class GlobalNav {
     setUpShared(sharedPreferences!);
     await database();
     appDataSource = LocalDataSource();
+    //Journey
     //user
     userRepository = UserRepositoryImp(dataSource: appDataSource!);
     userUser = UserUser(repository: userRepository!);
@@ -54,6 +66,10 @@ class GlobalNav {
     accountRepository = AccountRepositoryImp(dataSource: appDataSource!);
     accountUser = AccountUser(repository: accountRepository!);
     accountLink = AccountLink(accountUser!);
+    //transaction
+    transactionRepository = TransactionRepositoryImp(dataSource: appDataSource!);
+    transactionUser = TransactionUser(repository: transactionRepository!);
+    transactionLink = TransactionLink(transactionUser!);
   }
 }
 

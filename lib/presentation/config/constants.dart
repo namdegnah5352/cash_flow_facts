@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import '../../domain/entities/accounts/account_type.dart';
+import '../../domain/calls/account_calls.dart';
+import '../../domain/entities/accounts/account.dart';
+import '../screens/account_screen.dart';
 
 class Currencies {
   static final _values = ['\u0024', '\u00A3', '\u00A5', '\u20AC'];
@@ -248,8 +251,8 @@ class AddInterestNames {
 }
 
 List<AccountType> types = [
-  AccountType(id: 1, typeName: 'Account', iconPath: 'assets/images/accounts/ac03.jpg'),
-  AccountType(id: 2, typeName: 'Savings', iconPath: 'assets/images/accounts/ac04.jpg'),
-  AccountType(id: 3, typeName: 'Loan', iconPath: 'assets/images/accounts/ac05.jpg'),
-  AccountType(id: 4, typeName: 'Credit Card', iconPath: 'assets/images/accounts/ac02.jpg')
+  AccountType(id: 1, typeName: 'Account', iconPath: 'assets/images/accounts/ac03.jpg', loadThis: returnNewAccount(Account.startUp())),
+  AccountType(id: 2, typeName: 'Savings', iconPath: 'assets/images/accounts/ac01.jpg', loadThis: returnNewAccount(Account.startUp())),
+  AccountType(id: 3, typeName: 'Loan', iconPath: 'assets/images/accounts/ac06.jpg', loadThis: returnNewAccount(Account.startUp())),
+  AccountType(id: 4, typeName: 'Credit Card', iconPath: 'assets/images/accounts/ac04.jpg', loadThis: returnNewAccount(Account.startUp()))
 ];

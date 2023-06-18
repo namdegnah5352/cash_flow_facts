@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import '../../../domain/usecases/account_calls.dart';
+import '../../../domain/calls/account_calls.dart';
 import '../../../domain/entities/accounts/account.dart';
 import 'account_list_tile.dart';
 
 class AccountList extends StatelessWidget {
   final List<Account> accounts;
-  const AccountList(this.accounts, {Key? key}) : super(key: key);
+  final Function callback;
+  const AccountList(this.accounts, this.callback, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -13,15 +14,21 @@ class AccountList extends StatelessWidget {
       body: CustomScrollView(
         slivers: <Widget>[
           SliverAppBar(
-            iconTheme: IconThemeData(color: Colors.black26),
+            leading: null,
+            automaticallyImplyLeading: false,
+            iconTheme: const IconThemeData(color: Colors.black26),
             actions: <Widget>[
               IconButton(
-                icon: Icon(Icons.add),
-                onPressed: () async {
-                  Navigator.pop(context);
-                  navigateToNewAccount();
-                },
-              ),
+                  icon: const Icon(Icons.add),
+                  onPressed: () async {
+                    showAccountTypeDialog(context).then(
+                      (result) {
+                        if (result != null) {
+                          callback(result.loadThis);
+                        }
+                      },
+                    );
+                  }),
             ],
             backgroundColor: Colors.white,
             pinned: true,

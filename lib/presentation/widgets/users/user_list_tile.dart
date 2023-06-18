@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../domain/entities/user.dart';
-import '../../../domain/usecases/user_calls.dart';
+import '../../../domain/calls/user_calls.dart';
 import '../../config/navigation/global_nav.dart';
 import '../../config/style/app_colors.dart';
 import '../../config/constants.dart';

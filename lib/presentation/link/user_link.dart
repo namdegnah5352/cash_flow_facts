@@ -1,5 +1,5 @@
-import 'package:cash_flow_facts/domain/usecases/user_calls.dart';
-import '../../../domain/usecases/calls.dart';
+import 'package:cash_flow_facts/domain/calls/user_calls.dart';
+import '../../domain/calls/calls.dart';
 import 'package:fpdart/fpdart.dart';
 import '../../../domain/usecases/user_usecase.dart';
 import '../../../domain/entities/user.dart';

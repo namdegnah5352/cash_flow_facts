@@ -2,15 +2,19 @@ import 'package:flutter/material.dart';
 import 'navigation_paths.dart';
 import '../../screens/settings.dart';
 import '../../screens/home.dart';
+import '../../screens/error_handler.dart';
 // user
 import '../../screens/user_screen.dart';
 import '../../widgets/users/users_list.dart';
 import '../../../domain/entities/user.dart';
 // account
+import '../../widgets/accounts/account_dashboard.dart';
 import '../../../domain/entities/accounts/account.dart';
 import '../../screens/account_screen.dart';
-import '../../screens/error_handler.dart';
 import '../../widgets/accounts/accounts_list.dart';
+// transaction
+import '../../../domain/entities/transaction.dart';
+import '../../widgets/transactions/transactions_list.dart';
 
 class AppRouter {
   Route? onGenerateRoute(RouteSettings settings) {
@@ -48,10 +52,23 @@ class AppRouter {
           builder: (_) => AccountScreen(account: parts.account, users: parts.users),
         );
       case NavigationPaths.accountList:
+        ({List<Account> account, Function callback}) listParts;
+        listParts = arg as ({List<Account> account, Function callback});
         return MaterialPageRoute(
           builder: (_) => AccountList(
-            arg as List<Account>,
+            listParts.account,
+            listParts.callback,
           ),
+        );
+      case NavigationPaths.transactionList:
+        return MaterialPageRoute(
+          builder: (_) => TransactionList(
+            arg as List<Transaction>,
+          ),
+        );
+      case NavigationPaths.accountDashboard:
+        return MaterialPageRoute(
+          builder: (_) => AccountDashboard(arg as List<Account>),
         );
       default:
         return null;

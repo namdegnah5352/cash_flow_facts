@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../domain/entities/settings_data.dart';
 import '../config/enums.dart';
-import '../../domain/usecases/calls.dart';
+import '../../domain/calls/calls.dart';
 import '../config/navigation/global_nav.dart';
 
 class Settings extends StatefulWidget {
@@ -42,8 +42,7 @@ class _SettingsState extends State<Settings> {
     );
   }
 
-  PreferredSizeWidget createAppBar(
-      VoidCallback resetSettings, SettingsData settingsData) {
+  PreferredSizeWidget createAppBar(VoidCallback resetSettings, SettingsData settingsData) {
     return AppBar(
       title: const Text('Settings'),
       actions: !showMediumSizeLayout && !showLargeSizeLayout
@@ -84,9 +83,7 @@ class _BrightnessButton extends StatelessWidget {
       preferBelow: showTooltipBelow,
       message: 'Toggle brightness',
       child: IconButton(
-        icon: isBright
-            ? const Icon(Icons.dark_mode_outlined)
-            : const Icon(Icons.light_mode_outlined),
+        icon: isBright ? const Icon(Icons.dark_mode_outlined) : const Icon(Icons.light_mode_outlined),
         onPressed: () => handleBrightnessChange(!isBright),
       ),
     );
@@ -120,15 +117,13 @@ class _ColorSeedButton extends StatelessWidget {
 
           return PopupMenuItem(
             value: index,
-            enabled: currentColor != colorSelected ||
-                colorSelectionMethod != ColorSelectionMethod.colorSeed,
+            enabled: currentColor != colorSelected || colorSelectionMethod != ColorSelectionMethod.colorSeed,
             child: Wrap(
               children: [
                 Padding(
                   padding: const EdgeInsets.only(left: 10),
                   child: Icon(
-                    currentColor == colorSelected &&
-                            colorSelectionMethod != ColorSelectionMethod.image
+                    currentColor == colorSelected && colorSelectionMethod != ColorSelectionMethod.image
                         ? Icons.color_lens
                         : Icons.color_lens_outlined,
                     color: currentColor.color,
@@ -173,13 +168,11 @@ class _ColorImageButton extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       itemBuilder: (context) {
         return List.generate(ColorImageProvider.values.length, (index) {
-          ColorImageProvider currentImageProvider =
-              ColorImageProvider.values[index];
+          ColorImageProvider currentImageProvider = ColorImageProvider.values[index];
 
           return PopupMenuItem(
             value: index,
-            enabled: currentImageProvider != imageSelected ||
-                colorSelectionMethod != ColorSelectionMethod.image,
+            enabled: currentImageProvider != imageSelected || colorSelectionMethod != ColorSelectionMethod.image,
             child: Wrap(
               crossAxisAlignment: WrapCrossAlignment.center,
               children: [
@@ -192,8 +185,7 @@ class _ColorImageButton extends StatelessWidget {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(8.0),
                         child: Image(
-                          image: NetworkImage(
-                              ColorImageProvider.values[index].url),
+                          image: NetworkImage(ColorImageProvider.values[index].url),
                         ),
                       ),
                     ),

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import '../../domain/usecases/user_calls.dart';
-import '../../domain/usecases/account_calls.dart';
-import '../../domain/usecases/calls.dart';
+import '../../domain/calls/user_calls.dart';
+import '../../domain/calls/account_calls.dart';
+import '../../domain/calls/transaction_calls.dart';
+import '../../domain/calls/calls.dart';
 
 class AppDrawer extends StatefulWidget {
   const AppDrawer({super.key});
@@ -48,11 +49,11 @@ class _AppDrawerState extends State<AppDrawer> {
 enum Destination {
   home('Home', Icon(Icons.home_outlined), Icon(Icons.home), loadHome),
   user('not here', Icon(Icons.inbox_outlined), Icon(Icons.inbox), loadHome),
-  account('Accounts', Icon(Icons.send_outlined), Icon(Icons.send), loadAccounts),
-  favorites('Users', Icon(Icons.bookmark_border), Icon(Icons.bookmark), loadUsers),
-  trash('Recurrences', Icon(Icons.favorite_outline), Icon(Icons.favorite), loadHome),
-  family('Transaction', Icon(Icons.delete_outline), Icon(Icons.delete), loadHome),
-  school('Transfer', Icon(Icons.bookmark_border), Icon(Icons.bookmark), loadSettings),
+  accounts('Accounts', Icon(Icons.send_outlined), Icon(Icons.send), loadAccounts),
+  users('Users', Icon(Icons.bookmark_border), Icon(Icons.bookmark), loadUsers),
+  transactions('Transactions', Icon(Icons.favorite_outline), Icon(Icons.favorite), loadTransactions),
+  family('Family', Icon(Icons.delete_outline), Icon(Icons.delete), loadHome),
+  school('School', Icon(Icons.bookmark_border), Icon(Icons.bookmark), loadSettings),
   work('Settings', Icon(Icons.bookmark_border), Icon(Icons.bookmark), loadHome);
 
   const Destination(this.label, this.iconOutlined, this.icon, this.function);

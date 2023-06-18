@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
-import '../../../domain/entities/accounts/account.dart';
-import '../../../domain/calls/account_calls.dart';
+import '../../../domain/entities/transaction.dart';
+import '../../../domain/calls/transaction_calls.dart';
 import '../../config/navigation/global_nav.dart';
 import '../../config/style/app_colors.dart';
 import 'package:intl/intl.dart';
 
-class AccountListTile extends StatelessWidget {
-  final Account account;
+class TransactionListTile extends StatelessWidget {
+  final Transaction transaction;
   // String currencySymbol =Currencies.currencyValue(sl<Setting>().currency);
-  const AccountListTile(this.account, {super.key});
+  const TransactionListTile(this.transaction, {super.key});
 
   Widget _getCirclePricedCurrency() {
     var numb;
 
-    if (account.balance < 1000) {
+    if (transaction.amount < 1000) {
       numb = NumberFormat.currency(symbol: '£', decimalDigits: 2);
     } else {
       numb = NumberFormat.currency(symbol: '£', decimalDigits: 0);
@@ -26,7 +26,7 @@ class AccountListTile extends StatelessWidget {
         padding: const EdgeInsets.all(2),
         child: Text(
           numb.format(
-            account.balance,
+            transaction.amount,
           ),
           style: const TextStyle(
             color: Colors.white,
@@ -43,7 +43,7 @@ class AccountListTile extends StatelessWidget {
       children: <Widget>[
         ListTile(
           leading: _getCirclePricedCurrency(),
-          title: Text(account.accountName),
+          title: Text(transaction.title),
           trailing: Container(
             width: 100,
             child: Row(
@@ -52,14 +52,14 @@ class AccountListTile extends StatelessWidget {
                   icon: Icon(Icons.edit),
                   onPressed: () {
                     Navigator.pop(context);
-                    navigateToExistingAccount(account);
+                    navigateToExistingTransaction(transaction);
                   },
                 ),
                 IconButton(
                   icon: Icon(Icons.delete),
                   onPressed: () {
                     Navigator.pop(context);
-                    GlobalNav.instance.accountLink!.linkDeleteAccount(account);
+                    GlobalNav.instance.transactionLink!.linkDeleteTransaction(transaction);
                   },
                 ),
               ],

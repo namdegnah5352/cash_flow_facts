@@ -22,6 +22,7 @@ class Account {
     required this.balance,
     this.usedForCashFlow = true,
   });
+  Account.startUp({this.id = AppConstants.createIDConstant, this.accountName = '', this.description = '', this.balance = 0.0});
   Account.noAccount({this.id = AppConstants.noAccount, this.accountName = '', this.description = '', this.balance = 0.0});
   bool isNoAccount() {
     if (id == AppConstants.noAccount) return true;

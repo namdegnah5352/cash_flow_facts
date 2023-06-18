@@ -1,20 +1,11 @@
 import 'package:flutter/material.dart';
-import '../../../domain/entities/user.dart';
-import '../../../domain/calls/user_calls.dart';
-import 'user_list_tile.dart';
+import '../../../domain/calls/transaction_calls.dart';
+import '../../../domain/entities/transaction.dart';
+import 'transaction_list_tile.dart';
 
-class UserList extends StatefulWidget {
-  final List<User> users;
-  const UserList(this.users, {Key? key}) : super(key: key);
-
-  @override
-  State<UserList> createState() => _UserListState();
-}
-
-class _UserListState extends State<UserList> {
-  void refreshMe() async {
-    setState(() {});
-  }
+class TransactionList extends StatelessWidget {
+  final List<Transaction> transactions;
+  const TransactionList(this.transactions, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,12 +16,10 @@ class _UserListState extends State<UserList> {
             iconTheme: const IconThemeData(color: Colors.black26),
             actions: <Widget>[
               IconButton(
-                icon: const Icon(Icons.add),
-                onPressed: () async {
-                  Navigator.pop(context);
-                  navigateToNewUser();
-                },
-              ),
+                  icon: const Icon(Icons.add),
+                  onPressed: () async {
+                    // this is the button on sequence flow: selling_screen.dart
+                  }),
             ],
             backgroundColor: Colors.white,
             pinned: true,
@@ -38,7 +27,7 @@ class _UserListState extends State<UserList> {
             flexibleSpace: const FlexibleSpaceBar(
               centerTitle: true,
               title: Text(
-                'Users',
+                'Transactions',
                 style: TextStyle(
                   color: Colors.black54,
                   fontSize: 16,
@@ -48,8 +37,7 @@ class _UserListState extends State<UserList> {
               background: DecoratedBox(
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage('assets/images/user.png'),
-                    scale: 1.25,
+                    image: AssetImage('assets/images/transaction.jpg'),
                   ),
                 ),
               ),
@@ -58,9 +46,9 @@ class _UserListState extends State<UserList> {
           SliverList(
             delegate: SliverChildBuilderDelegate(
               (_, index) {
-                return UserListTile(widget.users[index], refreshMe);
+                return TransactionListTile(transactions[index]);
               },
-              childCount: widget.users.length,
+              childCount: transactions.length,
             ),
           ),
         ],

@@ -6,6 +6,7 @@ import 'package:form_field_validator/form_field_validator.dart';
 import '../../core/util/validators.dart';
 import 'package:flutter/services.dart';
 import '../config/navigation/global_nav.dart';
+import '../../domain/calls/account_calls.dart';
 
 class AccountScreen extends StatefulWidget {
   final Account account;
@@ -59,7 +60,7 @@ class _AccountScreenState extends State<AccountScreen> {
   }
 
   void _shareAccount(BuildContext context) {
-    _showUsersDialog(context).then((result) async {
+    showUsersDialog(context, widget.users).then((result) async {
       if (result != null) {
         Navigator.pop(context);
         GlobalNav.instance.accountLink!.linkShareAccount(widget.account, result);
@@ -72,6 +73,8 @@ class _AccountScreenState extends State<AccountScreen> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
+        leading: null,
+        automaticallyImplyLeading: false,
         title: const Text('Account'),
         backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
         actions: [
@@ -160,53 +163,11 @@ class _AccountScreenState extends State<AccountScreen> {
       ),
     );
   }
-
-  Future<User?> _showUsersDialog(BuildContext context) async {
-    return await showDialog(
-      barrierDismissible: true,
-      context: context,
-      builder: (_) => SimpleDialog(
-        title: const Text('Users Dialog'),
-        contentPadding: const EdgeInsets.all(15),
-        elevation: 2.0,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(
-            8.0,
-          ),
-          side: const BorderSide(width: 2.0, color: Colors.grey),
-        ),
-        children: _convertUsers(context),
-      ),
-    );
-  }
-
-  List<Widget> _convertUsers(BuildContext context) {
-    List<Widget> lsdo = [];
-    int userId = GlobalNav.instance.sharedPreferences!.getInt(AppConstants.userId)!;
-    for (User user in widget.users) {
-      if (user.id != userId) {
-        lsdo.add(Row(
-          children: <Widget>[
-            const SizedBox(width: 5),
-            const SizedBox(width: 3),
-            SimpleDialogOption(
-              child: Text(user.name),
-              onPressed: () => Navigator.pop<User>(context, user),
-            ),
-          ],
-        ));
-        lsdo.add(const Divider(thickness: 1));
-      }
-    }
-    lsdo.removeLast();
-    return lsdo;
-  }
 }
 
 enum UserFields {
   name('accountNameKey', 'Account Name', 'enter account name', 'the name for this account'),
-  description(
-      'accountDescriptionKey', 'Account Description', 'enter the description', 'description must contain at least 2 characters');
+  description('accountDescriptionKey', 'Account Description', 'enter the description', 'description must contain at least 2 characters');
 
   const UserFields(this.key, this.labelText, this.hintText, this.helperText);
   final String key;

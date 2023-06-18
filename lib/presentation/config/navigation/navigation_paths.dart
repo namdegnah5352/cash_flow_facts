@@ -8,4 +8,7 @@ class NavigationPaths {
   static const String userList = '/userList';
   static const String accountList = '/accountList';
   static const String account = '/account';
+  static const String transaction = '/transaction';
+  static const String transactionList = '/transactionList';
+  static const String accountDashboard = '/accountDashboard';
 }
