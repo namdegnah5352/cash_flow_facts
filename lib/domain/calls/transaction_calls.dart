@@ -6,6 +6,7 @@ import '../entities/accounts/account.dart';
 import 'package:cash_flow_facts/presentation/config/constants.dart';
 import 'package:flutter/material.dart';
 import '../../presentation/widgets/transactions/transaction_list.dart';
+import '../../presentation/screens/transaction/next_payment_screen.dart';
 
 GlobalNav globalNav = GlobalNav.instance;
 
@@ -37,11 +38,20 @@ Future<void> loadTransaction(Transaction transaction) async {
   await globalNav.appNavigation.pushNamed(NavigationPaths.transaction, arguments: parts);
 }
 
-Future<Widget> returTransactionsScreen(Account account) async {
+Future<Widget> returTransactionsScreen(Account account, Function rebuildDashboard) async {
   List<Transaction> transactions = await globalNav.transactionLink!.getListTransactions(account.id);
-  return TransactionList(transactions);
+  return TransactionList(transactions, rebuildDashboard);
 }
 
 Future<void> loadTransactionList(List<Transaction> transactions) async {
   await globalNav.appNavigation.pushNamed(NavigationPaths.transactionList, arguments: transactions);
+}
+
+Future<void> newTransactionStep1() async {
+  await globalNav.appNavigation.pushNamed(NavigationPaths.newTransactionStep1);
+}
+
+Future<Widget> returnStep1() async {
+  // List<User> users = await globalNav.userLink!.getListUsers();
+  return const NextPaymentScreen();
 }

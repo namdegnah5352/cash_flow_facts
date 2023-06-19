@@ -11,4 +11,7 @@ class NavigationPaths {
   static const String transaction = '/transaction';
   static const String transactionList = '/transactionList';
   static const String accountDashboard = '/accountDashboard';
+
+  // new transaction
+  static const String newTransactionStep1 = '/newTransactionStep1';
 }

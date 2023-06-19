@@ -4,8 +4,7 @@ import '../../config/navigation/global_nav.dart';
 import '../../../domain/entities/transaction_journey.dart';
 
 class NextPaymentScreen extends StatefulWidget {
-  final Function callback;
-  const NextPaymentScreen(this.callback, {super.key});
+  const NextPaymentScreen({super.key});
 
   @override
   State<NextPaymentScreen> createState() => _NextPaymentScreenState();
@@ -18,10 +17,10 @@ class _NextPaymentScreenState extends State<NextPaymentScreen> {
   void initState() {
     controller = TextEditingController();
     // see here if the object has any data
-    String? data = GlobalNav.instance.transactionJourney.modelData.step1;
-    if (data != null && data.isNotEmpty) {
-      controller.text = data;
-    }
+    // String? data = GlobalNav.instance.transactionJourney.modelData.step1;
+    // if (data != null && data.isNotEmpty) {
+    //   controller.text = data;
+    // }
     focusNode.requestFocus();
     super.initState();
   }
@@ -39,8 +38,8 @@ class _NextPaymentScreenState extends State<NextPaymentScreen> {
         bottomMargin: 20,
         sideMargin: 20,
         onTap: () async {
-          GlobalNav.instance.transactionJourney.modelData.step1 = controller.text;
-          await GlobalNav.instance.transactionJourney[TransactionEnum.step2.index](widget.callback);
+          // GlobalNav.instance.transactionJourney.modelData.step1 = controller.text;
+          // await GlobalNav.instance.transactionJourney[TransactionEnum.step2.index](widget.callback);
         },
         enableButton: true,
         label: 'Continue',

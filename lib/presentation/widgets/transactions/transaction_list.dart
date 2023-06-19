@@ -2,10 +2,16 @@ import 'package:flutter/material.dart';
 import '../../../domain/calls/transaction_calls.dart';
 import '../../../domain/entities/transaction.dart';
 import 'transaction_list_tile.dart';
+import '../../../core/util/journey_list.dart';
+import '../../../domain/entities/transaction_journey.dart';
+import '../../config/navigation/global_nav.dart';
+import '../../config/enums.dart';
+import '../../screens/transaction/next_payment_screen.dart';
 
 class TransactionList extends StatelessWidget {
   final List<Transaction> transactions;
-  const TransactionList(this.transactions, {Key? key}) : super(key: key);
+  final Function rebuildDashboard;
+  const TransactionList(this.transactions, this.rebuildDashboard, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,10 +24,12 @@ class TransactionList extends StatelessWidget {
             iconTheme: const IconThemeData(color: Colors.black26),
             actions: <Widget>[
               IconButton(
-                  icon: const Icon(Icons.add),
-                  onPressed: () async {
-                    // this is the button on sequence flow: selling_screen.dart
-                  }),
+                icon: const Icon(Icons.add),
+                onPressed: () async {
+                  GlobalNav.instance.setDashboardWidget(returnStep1(), NavIndex.transactions.index);
+                  rebuildDashboard();
+                },
+              ),
             ],
             backgroundColor: Colors.white,
             pinned: true,
@@ -57,4 +65,8 @@ class TransactionList extends StatelessWidget {
       ),
     );
   }
+}
+
+extension BuyingVerbs on JourneyList<Future<void> Function(Widget), TransactionJourney> {
+  void init(TransactionJourney newJourney) => modelData = newJourney;
 }

@@ -11,13 +11,13 @@ import 'package:cash_flow_facts/presentation/config/constants.dart';
 class AccountListTile extends StatelessWidget {
   final Account account;
   final Function listCallback;
-  final Function dashboardCallback;
   final int selectedAccountId;
+  final Function rebuildDashboard;
   const AccountListTile({
     required this.account,
     required this.listCallback,
-    required this.dashboardCallback,
     required this.selectedAccountId,
+    required this.rebuildDashboard,
     super.key,
   });
 
@@ -53,7 +53,10 @@ class AccountListTile extends StatelessWidget {
         ListTile(
           onTap: () {
             listCallback(account.id);
-            dashboardCallback(returTransactionsScreen(account), NavIndex.transactions.index);
+            // I think this is built by clicking on the dashboard bottom navigation bar - transaction
+            GlobalNav.instance.setDashboardWidget(returTransactionsScreen(account, rebuildDashboard), NavIndex.transactions.index);
+            // GlobalNav.instance.dashboardCallback!(returTransactionsScreen(account), NavIndex.transactions.index);
+            // dashboardCallback(returTransactionsScreen(account), NavIndex.transactions.index);
             // toggle thme selected colour, by running the function from the account_list.dart
             // this loads the transaction page
             // use the dashboardCallback to load the transactionsList into NavIndex.transactions.index

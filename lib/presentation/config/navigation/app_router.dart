@@ -15,6 +15,7 @@ import '../../widgets/accounts/accounts_list.dart';
 // transaction
 import '../../../domain/entities/transaction.dart';
 import '../../widgets/transactions/transaction_list.dart';
+import '../../screens/transaction/next_payment_screen.dart';
 
 class AppRouter {
   Route? onGenerateRoute(RouteSettings settings) {
@@ -51,15 +52,19 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => AccountScreen(account: parts.account, users: parts.users),
         );
-      case NavigationPaths.accountList:
-        ({List<Account> account, Function callback}) listParts;
-        listParts = arg as ({List<Account> account, Function callback});
-        return MaterialPageRoute(
-          builder: (_) => AccountList(listParts.account, listParts.callback, () {}, () {}),
-        );
+      // case NavigationPaths.accountList:
+      //   ({List<Account> account, Function callback}) listParts;
+      //   listParts = arg as ({List<Account> account, Function callback});
+      //   return MaterialPageRoute(
+      //     builder: (_) => AccountList(listParts.account, listParts.callback, () {}, (){}),
+      //   );
       case NavigationPaths.accountDashboard:
         return MaterialPageRoute(
           builder: (_) => AccountDashboard(arg as List<Account>),
+        );
+      case NavigationPaths.newTransactionStep1:
+        return MaterialPageRoute(
+          builder: (_) => NextPaymentScreen(),
         );
       default:
         return null;

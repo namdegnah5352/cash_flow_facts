@@ -28,15 +28,13 @@ class TransactionLink {
   }
 
   void linkGetTransactions(int accountId) async {
-    var either =
-        await transactionUser.getTransactions(GlobalNav.instance.sharedPreferences!.getInt(AppConstants.userId)!, accountId);
+    var either = await transactionUser.getTransactions(GlobalNav.instance.sharedPreferences!.getInt(AppConstants.userId)!, accountId);
     _linkTransactions(either);
   }
 
   Future<List<Transaction>> getListTransactions(int accountId) async {
     List<Transaction> accounts = [];
-    var either =
-        await transactionUser.getTransactions(GlobalNav.instance.sharedPreferences!.getInt(AppConstants.userId)!, accountId);
+    var either = await transactionUser.getTransactions(GlobalNav.instance.sharedPreferences!.getInt(AppConstants.userId)!, accountId);
     either.fold(
       (failure) => loadErrorHandler(failure.message),
       (listTransactions) => accounts = listTransactions,
@@ -54,7 +52,7 @@ class TransactionLink {
     _linkTransactions(either);
   }
 
-  void linkCreateAccount(Transaction transaction) async {
+  void linkCreateTransaction(Transaction transaction) async {
     var either = await transactionUser.insertTransaction(transaction);
     _linkTransactions(either);
   }

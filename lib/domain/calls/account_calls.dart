@@ -14,7 +14,7 @@ GlobalNav globalNav = GlobalNav.instance;
 
 // Account
 void navigateToNewAccount() async {
-  await loadAccount(Account(id: AppConstants.createIDConstant, accountName: '', description: '', balance: 0.0, usedForCashFlow: true));
+  await loadAccount(Account.startUp());
 }
 
 void navigateToExistingAccount(Account account) async {

@@ -1,11 +1,15 @@
 import '../../../data/models/d_base.dart';
+import 'package:flutter/material.dart';
 import 'app_navigation.dart';
 import '../../../domain/entities/settings_data.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../constants.dart';
 import '../../../core/util/journey_list.dart';
+import '../enums.dart';
 //Journey
 import '../../../domain/entities/transaction_journey.dart';
+import '../../screens/transaction/next_payment_screen.dart';
+import '../../../data/models/constant_classes.dart';
 //Datasource
 import '../../../data/datasources/datasources.dart';
 import '../../../data/datasources/local_data_source_imp.dart';
@@ -27,7 +31,8 @@ import '../../link/transaction_link.dart';
 class GlobalNav {
   late final SharedPreferences? sharedPreferences;
   late final AppNavigation appNavigation;
-  late final JourneyList<Future<void> Function(Function), TransactionJourney> transactionJourney;
+  // late final JourneyList<Future<void> Function(Function), TransactionJourney> transactionJourney;
+  late final JourneyList<Future<void> Function(Widget), TransactionJourney> transactionJourney;
   SettingsData? settingsData;
   AppDataSource? appDataSource;
   //User
@@ -42,6 +47,13 @@ class GlobalNav {
   TransactionRepository? transactionRepository;
   TransactionUser? transactionUser;
   TransactionLink? transactionLink;
+  //Journey
+  late List<Widget> accountDashboardWidgets;
+
+  void setDashboardWidget(Future<Widget> futureWidget, int index) async {
+    Widget widget = await futureWidget;
+    accountDashboardWidgets[index] = widget;
+  }
 
   static final GlobalNav instance = GlobalNav._internal();
 
@@ -56,8 +68,14 @@ class GlobalNav {
     sharedPreferences = await SharedPreferences.getInstance();
     setUpShared(sharedPreferences!);
     await database();
+    accountDashboardWidgets = [const NoAccounts(), const NoTransactions(), const NoMoveMoney(), const NoSettings()];
+    // load backend classes
     appDataSource = LocalDataSource();
     //Journey
+    transactionJourney = JourneyList(TransactionJourney());
+    // transactionJourney.addAll([
+    //   dashboardCallback!(const NextPaymentScreen(), NavIndex.transactions.index),
+    // ]);
     //user
     userRepository = UserRepositoryImp(dataSource: appDataSource!);
     userUser = UserUser(repository: userRepository!);

@@ -22,25 +22,22 @@ class _AccountDashboardState extends State<AccountDashboard> {
   void _onItemTapped(int index) async {
     setState(() {
       if (index == NavIndex.accounts.index && widget.accounts.isNotEmpty) {
-        widgetOptions[NavIndex.accounts.index] = AccountList(widget.accounts, setAccountTab, getSelectedIndex, setAccountId);
+        globalNav.accountDashboardWidgets[NavIndex.accounts.index] = AccountList(widget.accounts, getAccountId, setAccountId, rebuidDashboard);
       }
       _selectedIndex = index;
     });
   }
 
-  void setAccountTab(Future<Widget> futureWidget, int index) async {
-    Widget widget = await futureWidget;
-    setState(() {
-      widgetOptions[index] = widget;
-    });
+  void rebuidDashboard() {
+    setState(() {});
   }
 
   void setAccountId(int index) => _accountId = index;
-  int getSelectedIndex() => _accountId;
+  int getAccountId() => _accountId;
 
   @override
   void initState() {
-    widgetOptions[NavIndex.accounts.index] = AccountList(widget.accounts, setAccountTab, getSelectedIndex, setAccountId);
+    globalNav.accountDashboardWidgets[NavIndex.accounts.index] = AccountList(widget.accounts, getAccountId, setAccountId, rebuidDashboard);
     super.initState();
   }
 
@@ -54,12 +51,10 @@ class _AccountDashboardState extends State<AccountDashboard> {
         },
         destinations: appBarDestinations,
       ),
-      body: widgetOptions.elementAt(_selectedIndex),
+      body: globalNav.accountDashboardWidgets.elementAt(_selectedIndex),
     );
   }
 }
-
-List<Widget> widgetOptions = [const NoAccounts(), const NoTransactions(), const NoMoveMoney(), const NoSettings()];
 
 const List<NavigationDestination> appBarDestinations = [
   NavigationDestination(
@@ -87,47 +82,3 @@ const List<NavigationDestination> appBarDestinations = [
     selectedIcon: Icon(Icons.opacity),
   )
 ];
-
-class NoAccounts extends StatelessWidget {
-  const NoAccounts({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(child: Text('No Accounts please create one')),
-    );
-  }
-}
-
-class NoTransactions extends StatelessWidget {
-  const NoTransactions({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(child: Text('No Transactions please create one or select an account')),
-    );
-  }
-}
-
-class NoMoveMoney extends StatelessWidget {
-  const NoMoveMoney({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(child: Text('No Move Money, please create one')),
-    );
-  }
-}
-
-class NoSettings extends StatelessWidget {
-  const NoSettings({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(child: Text('No Settings for this account')),
-    );
-  }
-}

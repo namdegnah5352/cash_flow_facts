@@ -4,13 +4,14 @@ import '../../../domain/calls/account_calls.dart';
 import '../../../domain/entities/accounts/account.dart';
 import 'account_list_tile.dart';
 import '../../config/enums.dart';
+import '../../config/navigation/global_nav.dart';
 
 class AccountList extends StatefulWidget {
   final List<Account> accounts;
-  final Function dashboardCallback;
   final Function dashboardAccountIndex;
   final Function setAccountIdOnDashboard;
-  const AccountList(this.accounts, this.dashboardCallback, this.dashboardAccountIndex, this.setAccountIdOnDashboard, {Key? key}) : super(key: key);
+  final Function rebuildDashboard;
+  const AccountList(this.accounts, this.dashboardAccountIndex, this.setAccountIdOnDashboard, this.rebuildDashboard, {Key? key}) : super(key: key);
 
   @override
   State<AccountList> createState() => _AccountListState();
@@ -47,7 +48,10 @@ class _AccountListState extends State<AccountList> {
                     showAccountTypeDialog(context).then(
                       (result) {
                         if (result != null) {
-                          widget.dashboardCallback(result.loadThis, NavIndex.accounts.index);
+                          GlobalNav.instance.setDashboardWidget(result.loadThis, NavIndex.accounts.index);
+                          widget.rebuildDashboard();
+                          // GlobalNav.instance.dashboardCallback!(result.loadThis, NavIndex.accounts.index);
+                          // widget.dashboardCallback(result.loadThis, NavIndex.accounts.index);
                         }
                       },
                     );
@@ -81,8 +85,8 @@ class _AccountListState extends State<AccountList> {
                 return AccountListTile(
                   account: widget.accounts[index],
                   listCallback: listCallback,
-                  dashboardCallback: widget.dashboardCallback,
                   selectedAccountId: accountId!,
+                  rebuildDashboard: widget.rebuildDashboard,
                 );
               },
               childCount: widget.accounts.length,
