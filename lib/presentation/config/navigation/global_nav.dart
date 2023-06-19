@@ -1,3 +1,5 @@
+import 'package:cash_flow_facts/domain/calls/transaction_calls.dart';
+import '../../../domain/entities/accounts/account.dart';
 import '../../../data/models/d_base.dart';
 import 'package:flutter/material.dart';
 import 'app_navigation.dart';
@@ -32,7 +34,7 @@ class GlobalNav {
   late final SharedPreferences? sharedPreferences;
   late final AppNavigation appNavigation;
   // late final JourneyList<Future<void> Function(Function), TransactionJourney> transactionJourney;
-  late final JourneyList<Future<void> Function(Widget), TransactionJourney> transactionJourney;
+  late final JourneyList<Future<Widget> Function(Function, Account), TransactionJourney> transactionJourney;
   SettingsData? settingsData;
   AppDataSource? appDataSource;
   //User
@@ -73,6 +75,9 @@ class GlobalNav {
     appDataSource = LocalDataSource();
     //Journey
     transactionJourney = JourneyList(TransactionJourney());
+    transactionJourney.addAll([
+      loadStep1,
+    ]);
     // transactionJourney.addAll([
     //   dashboardCallback!(const NextPaymentScreen(), NavIndex.transactions.index),
     // ]);

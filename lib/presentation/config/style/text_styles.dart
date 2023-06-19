@@ -25,16 +25,10 @@ TextStyle anyStyle({
   return start;
 }
 
-TextStyle start =
-    TextStyle(fontSize: 12, color: simplyBlack, fontWeight: FontWeight.normal);
+TextStyle start = const TextStyle(fontSize: 12, color: simplyBlack, fontWeight: FontWeight.normal);
 // TextStyle whiteButtonText = GoogleFonts.roboto(fontSize: 14, color: simplyWhite, fontWeight: FontWeight.w600);
 // TextStyle footerStyle = GoogleFonts.roboto(fontSize: 12, color: Colors.black87, fontWeight: FontWeight.w400, height: 1.33);
-TextStyle unfocussed = TextStyle(
-    fontSize: 16,
-    fontWeight: FontWeight.w400,
-    color: simplyWhite,
-    height: 1,
-    letterSpacing: 1.2);
+TextStyle unfocussed = TextStyle(fontSize: 16, fontWeight: FontWeight.w400, color: simplyWhite, height: 1, letterSpacing: 1.2);
 
 TextStyle focussed = anyStyle(
   start: unfocussed,
@@ -77,11 +71,8 @@ TextStyle drawerMenu = anyStyle(
 // TextStyle basketTotalMinorText = anyStyle(start: basketTotalHeaderText, height: 1, color: basketTotalHeader);
 // TextStyle basketTotal = anyStyle(start: basketTotalHeaderText, letterSpacing: 0.5, fontWeight: FontWeight.w700);
 // TextStyle basketWeHave = anyStyle(start: basketQuanity, letterSpacing: 1, height: 1, fontWeight: FontWeight.w400);
-TextStyle skillsHeader =
-    anyStyle(start: start, fontWeight: FontWeight.bold, fontSize: 20);
+TextStyle skillsHeader = anyStyle(start: start, fontWeight: FontWeight.bold, fontSize: 20);
 TextStyle skillsBody = anyStyle(start: start, fontSize: 16);
 TextStyle skillsBodySmall = anyStyle(start: start, fontSize: 13);
-TextStyle footerBig =
-    anyStyle(start: start, fontWeight: FontWeight.bold, fontSize: 16);
-TextStyle footerSmall =
-    anyStyle(start: start, fontWeight: FontWeight.w600, fontSize: 12);
+TextStyle footerBig = anyStyle(start: start, fontWeight: FontWeight.bold, fontSize: 16);
+TextStyle footerSmall = anyStyle(start: start, fontWeight: FontWeight.w600, fontSize: 12);

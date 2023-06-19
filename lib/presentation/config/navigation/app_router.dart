@@ -62,10 +62,10 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => AccountDashboard(arg as List<Account>),
         );
-      case NavigationPaths.newTransactionStep1:
-        return MaterialPageRoute(
-          builder: (_) => NextPaymentScreen(),
-        );
+      // case NavigationPaths.newTransactionStep1:
+      //   return MaterialPageRoute(
+      //     builder: (_) => NextPaymentScreen(),
+      //   );
       default:
         return null;
     }

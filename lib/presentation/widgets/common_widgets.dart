@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import '../config/style/app_colors.dart';
 
 class IconListImage extends StatelessWidget {
   final double sized;
@@ -48,6 +50,44 @@ Widget simpleButton({
       ),
       onPressed: enableButton ? onTap : null,
       child: Text(label ?? 'Next'),
+    ),
+  );
+}
+
+TextFormField textFormField({
+  required TextEditingController controller,
+  required Function()? editComplete,
+  FocusNode? thisNode,
+  required String labelText,
+  Function()? onChanged,
+  String? Function(String?)? validator,
+  bool? autoFoucusMe,
+  List<TextInputFormatter>? formatter,
+  EdgeInsetsGeometry? padding,
+}) {
+  return TextFormField(
+    autofocus: autoFoucusMe ?? false,
+    autovalidateMode: AutovalidateMode.onUserInteraction,
+    validator: validator,
+    onEditingComplete: () => editComplete,
+    onChanged: (String? value) => onChanged!(),
+    focusNode: thisNode,
+    inputFormatters: formatter,
+    controller: controller,
+    decoration: InputDecoration(
+      contentPadding: padding,
+      errorMaxLines: 2,
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(5),
+        borderSide: const BorderSide(color: textFormFieldBorder),
+      ),
+      floatingLabelBehavior: FloatingLabelBehavior.auto,
+      labelText: labelText,
+      labelStyle: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+      border: const OutlineInputBorder(
+        gapPadding: 4.0,
+        borderSide: BorderSide(color: textFormFieldBorder),
+      ),
     ),
   );
 }

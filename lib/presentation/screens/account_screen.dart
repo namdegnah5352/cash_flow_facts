@@ -85,7 +85,7 @@ class _AccountScreenState extends State<AccountScreen> {
                 Navigator.pop(context);
                 loadAccounts();
               }),
-          Spacer(),
+          const Spacer(),
           IconButton.filledTonal(
             icon: const Icon(Icons.save_outlined),
             selectedIcon: const Icon(Icons.save),

@@ -55,11 +55,6 @@ class AccountListTile extends StatelessWidget {
             listCallback(account.id);
             // I think this is built by clicking on the dashboard bottom navigation bar - transaction
             GlobalNav.instance.setDashboardWidget(returTransactionsScreen(account, rebuildDashboard), NavIndex.transactions.index);
-            // GlobalNav.instance.dashboardCallback!(returTransactionsScreen(account), NavIndex.transactions.index);
-            // dashboardCallback(returTransactionsScreen(account), NavIndex.transactions.index);
-            // toggle thme selected colour, by running the function from the account_list.dart
-            // this loads the transaction page
-            // use the dashboardCallback to load the transactionsList into NavIndex.transactions.index
           },
           tileColor: selectedAccountId == account.id ? Colors.black12 : Colors.white,
           leading: _getCirclePricedCurrency(),

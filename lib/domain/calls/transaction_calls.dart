@@ -40,7 +40,7 @@ Future<void> loadTransaction(Transaction transaction) async {
 
 Future<Widget> returTransactionsScreen(Account account, Function rebuildDashboard) async {
   List<Transaction> transactions = await globalNav.transactionLink!.getListTransactions(account.id);
-  return TransactionList(transactions, rebuildDashboard);
+  return TransactionList(transactions, rebuildDashboard, account);
 }
 
 Future<void> loadTransactionList(List<Transaction> transactions) async {
@@ -51,7 +51,6 @@ Future<void> newTransactionStep1() async {
   await globalNav.appNavigation.pushNamed(NavigationPaths.newTransactionStep1);
 }
 
-Future<Widget> returnStep1() async {
-  // List<User> users = await globalNav.userLink!.getListUsers();
-  return const NextPaymentScreen();
+Future<Widget> loadStep1(Function callback, Account account) async {
+  return NextPaymentScreen(callback, account);
 }

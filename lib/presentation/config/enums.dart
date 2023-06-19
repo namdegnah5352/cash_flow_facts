@@ -32,3 +32,5 @@ enum ColorImageProvider {
 enum ColorSelectionMethod { colorSeed, image }
 
 enum NavIndex { accounts, transactions, movemoney, settings }
+
+enum TransIndex { step1, step2, step3, step4 }
