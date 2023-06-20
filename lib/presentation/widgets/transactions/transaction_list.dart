@@ -7,7 +7,7 @@ import '../../../core/util/journey_list.dart';
 import '../../../domain/entities/transaction_journey.dart';
 import '../../config/navigation/global_nav.dart';
 import '../../config/enums.dart';
-import '../../screens/transaction/next_payment_screen.dart';
+import '../../screens/transaction/trans_step1.dart';
 
 GlobalNav globalNav = GlobalNav.instance;
 

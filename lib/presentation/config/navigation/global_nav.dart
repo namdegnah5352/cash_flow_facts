@@ -7,10 +7,8 @@ import '../../../domain/entities/settings_data.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../constants.dart';
 import '../../../core/util/journey_list.dart';
-import '../enums.dart';
 //Journey
 import '../../../domain/entities/transaction_journey.dart';
-import '../../screens/transaction/next_payment_screen.dart';
 import '../../../data/models/constant_classes.dart';
 //Datasource
 import '../../../data/datasources/datasources.dart';
@@ -77,10 +75,11 @@ class GlobalNav {
     transactionJourney = JourneyList(TransactionJourney());
     transactionJourney.addAll([
       loadStep1,
+      loadStep2,
+      loadStep3,
+      loadStep4,
+      loadStep5,
     ]);
-    // transactionJourney.addAll([
-    //   dashboardCallback!(const NextPaymentScreen(), NavIndex.transactions.index),
-    // ]);
     //user
     userRepository = UserRepositoryImp(dataSource: appDataSource!);
     userUser = UserUser(repository: userRepository!);

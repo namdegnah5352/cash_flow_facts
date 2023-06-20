@@ -227,3 +227,12 @@ class OcurrenceSince {
   int noPaid;
   OcurrenceSince({required this.nextDate, required this.noPaid});
 }
+
+DateTime convertFormattedDate(String fomattedDate) {
+  var p = fomattedDate.split('-');
+  return DateTime(
+    int.tryParse(p[2])!,
+    int.tryParse(p[1])!,
+    int.tryParse(p[0])!,
+  );
+}

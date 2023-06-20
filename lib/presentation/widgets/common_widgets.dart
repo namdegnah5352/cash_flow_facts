@@ -64,10 +64,14 @@ TextFormField textFormField({
   bool? autoFoucusMe,
   List<TextInputFormatter>? formatter,
   EdgeInsetsGeometry? padding,
+  String? helperText,
+  AutovalidateMode? auto,
+  bool? readOnlyOption,
 }) {
   return TextFormField(
+    readOnly: readOnlyOption ?? false,
     autofocus: autoFoucusMe ?? false,
-    autovalidateMode: AutovalidateMode.onUserInteraction,
+    autovalidateMode: auto,
     validator: validator,
     onEditingComplete: () => editComplete,
     onChanged: (String? value) => onChanged!(),
@@ -75,6 +79,7 @@ TextFormField textFormField({
     inputFormatters: formatter,
     controller: controller,
     decoration: InputDecoration(
+      helperText: helperText,
       contentPadding: padding,
       errorMaxLines: 2,
       focusedBorder: OutlineInputBorder(

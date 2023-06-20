@@ -1,16 +1,10 @@
-import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-
 class Recurrence {
-  DateTime? nextPaymentDate;
-  Duration? duration;
-  int? accountId;
   int id;
-
+  String title;
+  Duration? duration;
   Recurrence({
     required this.id,
-    required this.nextPaymentDate,
+    required this.title,
     required this.duration,
-    required this.accountId,
   });
 }

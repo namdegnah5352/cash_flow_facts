@@ -1,8 +1,9 @@
+import 'package:cash_flow_facts/domain/entities/accounts/recurrence.dart';
 import 'package:flutter/material.dart';
 import '../../domain/entities/accounts/account_type.dart';
 import '../../domain/calls/account_calls.dart';
 import '../../domain/entities/accounts/account.dart';
-import '../screens/account_screen.dart';
+import 'package:intl/intl.dart';
 
 class Currencies {
   static final _values = ['\u0024', '\u00A3', '\u00A5', '\u20AC'];
@@ -256,3 +257,15 @@ List<AccountType> types = [
   AccountType(id: 3, typeName: 'Loan', iconPath: 'assets/images/accounts/ac06.jpg', loadThis: returAccountScreen(Account.startUp())),
   AccountType(id: 4, typeName: 'Credit Card', iconPath: 'assets/images/accounts/ac04.jpg', loadThis: returAccountScreen(Account.startUp()))
 ];
+List<Recurrence> recurrences = [
+  Recurrence(id: 1, title: 'Weekly', duration: const Duration(days: 7)),
+  Recurrence(id: 2, title: 'Fortnight', duration: const Duration(days: 14)),
+  Recurrence(id: 3, title: '4 weeks', duration: const Duration(days: 28)),
+  Recurrence(id: 4, title: 'Month', duration: null),
+  Recurrence(id: 5, title: 'Quarter', duration: null),
+  Recurrence(id: 6, title: 'Half Year', duration: null),
+  Recurrence(id: 7, title: 'Year', duration: null),
+  Recurrence(id: 8, title: 'End of Month', duration: null),
+  Recurrence(id: 9, title: 'First of Month', duration: null),
+];
+final formattedDate = DateFormat('dd-MM-yyyy');

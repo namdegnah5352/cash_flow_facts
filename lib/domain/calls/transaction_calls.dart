@@ -6,7 +6,11 @@ import '../entities/accounts/account.dart';
 import 'package:cash_flow_facts/presentation/config/constants.dart';
 import 'package:flutter/material.dart';
 import '../../presentation/widgets/transactions/transaction_list.dart';
-import '../../presentation/screens/transaction/next_payment_screen.dart';
+import '../../presentation/screens/transaction/trans_step1.dart';
+import '../../presentation/screens/transaction/trans_step2.dart';
+import '../../presentation/screens/transaction/trans_step3.dart';
+import '../../presentation/screens/transaction/trans_step4.dart';
+import '../../presentation/screens/transaction/trans_step5.dart';
 
 GlobalNav globalNav = GlobalNav.instance;
 
@@ -52,5 +56,21 @@ Future<void> newTransactionStep1() async {
 }
 
 Future<Widget> loadStep1(Function callback, Account account) async {
-  return NextPaymentScreen(callback, account);
+  return TransStep1(callback, account);
+}
+
+Future<Widget> loadStep2(Function callback, Account account) async {
+  return TransStep2(callback, account);
+}
+
+Future<Widget> loadStep3(Function callback, Account account) async {
+  return TransStep3(callback, account);
+}
+
+Future<Widget> loadStep4(Function callback, Account account) async {
+  return TransStep4(callback, account);
+}
+
+Future<Widget> loadStep5(Function callback, Account account) async {
+  return TransStep5(callback, account);
 }

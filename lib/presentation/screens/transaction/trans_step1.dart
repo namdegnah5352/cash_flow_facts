@@ -1,24 +1,25 @@
 import 'package:flutter/material.dart';
 import '../../widgets/common_widgets.dart';
 import '../../config/navigation/global_nav.dart';
-import '../../../domain/entities/transaction_journey.dart';
 import '../../config/enums.dart';
 import '../../../domain/calls/transaction_calls.dart';
 import '../../../domain/entities/accounts/account.dart';
 import '../../config/style/text_styles.dart';
+import '../../../core/util/validators.dart';
 
 GlobalNav globalNav = GlobalNav.instance;
 
-class NextPaymentScreen extends StatefulWidget {
+class TransStep1 extends StatefulWidget {
   final Function refreshDashboard;
   final Account account;
-  const NextPaymentScreen(this.refreshDashboard, this.account, {super.key});
+  const TransStep1(this.refreshDashboard, this.account, {super.key});
 
   @override
-  State<NextPaymentScreen> createState() => _NextPaymentScreenState();
+  State<TransStep1> createState() => _TransStep1State();
 }
 
-class _NextPaymentScreenState extends State<NextPaymentScreen> {
+class _TransStep1State extends State<TransStep1> {
+  final formKey = GlobalKey<FormState>();
   late final TextEditingController controller;
   FocusNode focusNode = FocusNode();
   @override
@@ -46,14 +47,20 @@ class _NextPaymentScreenState extends State<NextPaymentScreen> {
         bottomMargin: 20,
         sideMargin: 20,
         onTap: () async {
+          final isValid = formKey.currentState!.validate();
+          if (!isValid) return;
+          formKey.currentState!.save();
           globalNav.transactionJourney.modelData.step1 = controller.text;
-          globalNav.setDashboardWidget(globalNav.transactionJourney[TransIndex.step2.index](widget.refreshDashboard, widget.account), NavIndex.transactions.index);
+          globalNav.setDashboardWidget(
+            globalNav.transactionJourney[TransIndex.step2.index](widget.refreshDashboard, widget.account),
+            NavIndex.transactions.index,
+          );
+          widget.refreshDashboard();
         },
-        enableButton: true,
+        enableButton: controller.text.isNotEmpty,
         label: 'Continue',
       ),
       appBar: AppBar(
-        backgroundColor: Theme.of(context).canvasColor,
         leading: null,
         automaticallyImplyLeading: false,
         actions: [
@@ -69,19 +76,26 @@ class _NextPaymentScreenState extends State<NextPaymentScreen> {
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text('Step One', style: footerBig),
-            const SizedBox(height: 50),
-            textFormField(
-              controller: controller,
-              editComplete: () {},
-              onChanged: () {},
-              thisNode: focusNode,
-              labelText: 'Next Payment Date',
-            ),
-          ],
+        child: Form(
+          key: formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text('Transaction Title', style: footerBig),
+              const SizedBox(height: 50),
+              textFormField(
+                controller: controller,
+                editComplete: () {},
+                onChanged: () {
+                  setState(() {});
+                },
+                thisNode: focusNode,
+                labelText: 'Title',
+                validator: requiredAndLength(error: 'Title must be at least 5 characters  ', length: 5),
+                helperText: 'Title for this transaction',
+              ),
+            ],
+          ),
         ),
       ),
     );

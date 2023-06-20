@@ -15,7 +15,7 @@ import '../../widgets/accounts/accounts_list.dart';
 // transaction
 import '../../../domain/entities/transaction.dart';
 import '../../widgets/transactions/transaction_list.dart';
-import '../../screens/transaction/next_payment_screen.dart';
+import '../../screens/transaction/trans_step1.dart';
 
 class AppRouter {
   Route? onGenerateRoute(RouteSettings settings) {
@@ -64,7 +64,7 @@ class AppRouter {
         );
       // case NavigationPaths.newTransactionStep1:
       //   return MaterialPageRoute(
-      //     builder: (_) => NextPaymentScreen(),
+      //     builder: (_) => TransStep1(),
       //   );
       default:
         return null;
