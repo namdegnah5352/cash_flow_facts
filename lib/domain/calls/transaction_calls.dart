@@ -3,6 +3,7 @@ import '../../presentation/config/navigation/global_nav.dart';
 import '../entities/user.dart';
 import '../entities/transaction.dart';
 import '../entities/accounts/account.dart';
+import '../entities/recurrence.dart';
 import 'package:cash_flow_facts/presentation/config/constants.dart';
 import 'package:flutter/material.dart';
 import '../../presentation/widgets/transactions/transaction_list.dart';
@@ -11,6 +12,7 @@ import '../../presentation/screens/transaction/trans_step2.dart';
 import '../../presentation/screens/transaction/trans_step3.dart';
 import '../../presentation/screens/transaction/trans_step4.dart';
 import '../../presentation/screens/transaction/trans_step5.dart';
+import '../../presentation/widgets/common_widgets.dart';
 
 GlobalNav globalNav = GlobalNav.instance;
 
@@ -24,6 +26,7 @@ void navigateToNewTransaction() async {
     title: '',
     userId: AppConstants.createIDConstant,
     accountId: AppConstants.createIDConstant,
+    recurrenceId: AppConstants.createIDConstant,
   ));
 }
 
@@ -73,4 +76,44 @@ Future<Widget> loadStep4(Function callback, Account account) async {
 
 Future<Widget> loadStep5(Function callback, Account account) async {
   return TransStep5(callback, account);
+}
+
+Future<Recurrence?> showRecurrenceDialog(BuildContext context) async {
+  return await showDialog(
+    context: context,
+    barrierDismissible: true,
+    builder: (_) => SimpleDialog(
+      title: const Text('Gap till next transaction'),
+      contentPadding: const EdgeInsets.all(15),
+      elevation: 2.0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(
+          8.0,
+        ),
+        side: const BorderSide(width: 2.0, color: Colors.grey),
+      ),
+      children: _convertRecurrences(context),
+    ),
+  );
+}
+
+List<Widget> _convertRecurrences(BuildContext context) {
+  List<Widget> lsdo = [];
+
+  for (Recurrence recurrence in recurrences) {
+    lsdo.add(Row(
+      children: <Widget>[
+        const SizedBox(width: 5),
+        IconListImage(recurrence.iconPath, 25),
+        const SizedBox(width: 3),
+        SimpleDialogOption(
+          child: Text(recurrence.title),
+          onPressed: () => Navigator.pop(context, recurrence),
+        ),
+      ],
+    ));
+    lsdo.add(const Divider(thickness: 1));
+  }
+  if (lsdo.isNotEmpty) lsdo.removeLast();
+  return lsdo;
 }

@@ -83,7 +83,7 @@ class _TransStep3State extends State<TransStep3> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text('Amount', style: footerBig),
+              Text('Amount', style: getContextStyle(context)),
               const SizedBox(height: 50),
               textFormField(
                 controller: controller,
@@ -93,8 +93,10 @@ class _TransStep3State extends State<TransStep3> {
                 },
                 thisNode: focusNode,
                 labelText: 'Amount of transaction',
-                validator: isRequired('You must enter an amount to transfer'),
+                formatter: justNumberFormatter,
+                validator: requiredAndLength(error: 'You must enter an amount to transfer', length: 1),
                 helperText: 'The amount of money for this transaction',
+                helperStyle: getContextHelperStyle(context),
               ),
             ],
           ),

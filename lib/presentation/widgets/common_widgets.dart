@@ -65,6 +65,7 @@ TextFormField textFormField({
   List<TextInputFormatter>? formatter,
   EdgeInsetsGeometry? padding,
   String? helperText,
+  TextStyle? helperStyle,
   AutovalidateMode? auto,
   bool? readOnlyOption,
 }) {
@@ -80,6 +81,7 @@ TextFormField textFormField({
     controller: controller,
     decoration: InputDecoration(
       helperText: helperText,
+      helperStyle: helperStyle,
       contentPadding: padding,
       errorMaxLines: 2,
       focusedBorder: OutlineInputBorder(

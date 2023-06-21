@@ -55,6 +55,7 @@ class TransactionRepositoryImp extends TransactionRepository {
             amount: item[TransactionNames.amount],
             processed: item[TransactionNames.processed],
             accountId: item[TransactionNames.accountId],
+            recurrenceId: item[TransactionNames.recurrenceId],
           ),
         )
         .toList();

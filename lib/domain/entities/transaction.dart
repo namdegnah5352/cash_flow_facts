@@ -3,6 +3,7 @@ import '../../../../presentation/config/constants.dart';
 
 class Transaction extends TransBase {
   int accountId;
+  int recurrenceId;
   Transaction({
     required id,
     required userId,
@@ -11,9 +12,10 @@ class Transaction extends TransBase {
     required amount,
     required processed,
     required this.accountId,
+    required this.recurrenceId,
   }) : super(id: id, userId: userId, title: title, plannedDate: plannedDate, amount: amount, processed: processed);
 
-  Transaction.startUp({this.accountId = AppConstants.createIDConstant})
+  Transaction.startUp({this.accountId = AppConstants.createIDConstant, this.recurrenceId = AppConstants.createIDConstant})
       : super(
           id: AppConstants.createIDConstant,
           userId: AppConstants.createIDConstant,

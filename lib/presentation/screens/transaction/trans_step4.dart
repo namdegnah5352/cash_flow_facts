@@ -1,3 +1,4 @@
+import 'package:cash_flow_facts/domain/calls/transaction_calls.dart';
 import 'package:flutter/material.dart';
 import '../../widgets/common_widgets.dart';
 import '../../config/navigation/global_nav.dart';
@@ -83,9 +84,10 @@ class _TransStep4State extends State<TransStep4> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text('Gap between transactions', style: footerBig),
+              Text('Gap between transactions', style: getContextStyle(context)),
               const SizedBox(height: 50),
               textFormField(
+                readOnlyOption: true,
                 controller: controller,
                 editComplete: () {},
                 onChanged: () {
@@ -95,6 +97,22 @@ class _TransStep4State extends State<TransStep4> {
                 labelText: 'Time duration between transactions',
                 validator: isRequired('You must select either no further transactions or the gap till the next one'),
                 helperText: 'The amount of time before the next transaction',
+                helperStyle: getContextHelperStyle(context),
+              ),
+              const SizedBox(height: 30),
+              FilledButton.tonal(
+                onPressed: () async {
+                  showRecurrenceDialog(context).then(
+                    (recurrence) {
+                      if (recurrence != null) {
+                        setState(() {
+                          controller.text = recurrence.title;
+                        });
+                      }
+                    },
+                  );
+                },
+                child: const Text('Duration till next transaction'),
               ),
             ],
           ),

@@ -22,6 +22,7 @@ class TransStep2 extends StatefulWidget {
 class _TransStep2State extends State<TransStep2> {
   final formKey = GlobalKey<FormState>();
   late final TextEditingController controller;
+  FocusNode focusNode = FocusNode();
   DateTime? selectedDate;
   final DateTime _firstDate = DateTime.now();
   final DateTime _lastDate = DateTime(DateTime.now().year + 25);
@@ -34,6 +35,7 @@ class _TransStep2State extends State<TransStep2> {
       controller.text = data;
       selectedDate = convertFormattedDate(controller.text);
     }
+    focusNode.requestFocus();
     super.initState();
   }
 
@@ -87,7 +89,7 @@ class _TransStep2State extends State<TransStep2> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text('Next Payment Date', style: footerBig),
+              Text('Next Payment Date', style: getContextStyle(context)),
               const SizedBox(height: 50),
               textFormField(
                 readOnlyOption: true,
@@ -96,10 +98,11 @@ class _TransStep2State extends State<TransStep2> {
                 onChanged: () {
                   setState(() {});
                 },
-                thisNode: null,
+                thisNode: focusNode,
                 labelText: 'Payment Date',
                 validator: isRequired('You must select a payment date'),
                 helperText: 'The date for the next payment',
+                helperStyle: getContextHelperStyle(context),
               ),
               const SizedBox(height: 20),
               FilledButton.tonal(

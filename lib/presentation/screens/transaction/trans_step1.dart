@@ -81,7 +81,7 @@ class _TransStep1State extends State<TransStep1> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text('Transaction Title', style: footerBig),
+              Text('Transaction Title', style: getContextStyle(context)),
               const SizedBox(height: 50),
               textFormField(
                 controller: controller,
@@ -93,6 +93,7 @@ class _TransStep1State extends State<TransStep1> {
                 labelText: 'Title',
                 validator: requiredAndLength(error: 'Title must be at least 5 characters  ', length: 5),
                 helperText: 'Title for this transaction',
+                helperStyle: getContextHelperStyle(context),
               ),
             ],
           ),

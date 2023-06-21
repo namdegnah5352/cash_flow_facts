@@ -1,4 +1,4 @@
-import 'package:cash_flow_facts/domain/entities/accounts/recurrence.dart';
+import 'package:cash_flow_facts/domain/entities/recurrence.dart';
 import 'package:flutter/material.dart';
 import '../../domain/entities/accounts/account_type.dart';
 import '../../domain/calls/account_calls.dart';
@@ -258,14 +258,15 @@ List<AccountType> types = [
   AccountType(id: 4, typeName: 'Credit Card', iconPath: 'assets/images/accounts/ac04.jpg', loadThis: returAccountScreen(Account.startUp()))
 ];
 List<Recurrence> recurrences = [
-  Recurrence(id: 1, title: 'Weekly', duration: const Duration(days: 7)),
-  Recurrence(id: 2, title: 'Fortnight', duration: const Duration(days: 14)),
-  Recurrence(id: 3, title: '4 weeks', duration: const Duration(days: 28)),
-  Recurrence(id: 4, title: 'Month', duration: null),
-  Recurrence(id: 5, title: 'Quarter', duration: null),
-  Recurrence(id: 6, title: 'Half Year', duration: null),
-  Recurrence(id: 7, title: 'Year', duration: null),
-  Recurrence(id: 8, title: 'End of Month', duration: null),
-  Recurrence(id: 9, title: 'First of Month', duration: null),
+  Recurrence(id: 1, title: 'One Off', duration: null, iconPath: 'assets/images/recurrence_icons/r001.jpg'),
+  Recurrence(id: 2, title: 'Weekly', duration: const Duration(days: 7), iconPath: 'assets/images/recurrence_icons/r080.jpg'),
+  Recurrence(id: 3, title: 'Fortnight', duration: const Duration(days: 14), iconPath: 'assets/images/recurrence_icons/r077.jpg'),
+  Recurrence(id: 4, title: '4 weeks', duration: const Duration(days: 28), iconPath: 'assets/images/recurrence_icons/r082.jpg'),
+  Recurrence(id: 5, title: 'Month', duration: null, iconPath: 'assets/images/recurrence_icons/r083.jpg'),
+  Recurrence(id: 6, title: 'Quarter', duration: null, iconPath: 'assets/images/recurrence_icons/r084.jpg'),
+  Recurrence(id: 7, title: 'Half Year', duration: null, iconPath: 'assets/images/recurrence_icons/r074.jpg'),
+  Recurrence(id: 8, title: 'Year', duration: null, iconPath: 'assets/images/recurrence_icons/r076.jpg'),
+  Recurrence(id: 9, title: 'End of Month', duration: null, iconPath: 'assets/images/recurrence_icons/r060.jpg'),
+  Recurrence(id: 10, title: 'First of Month', duration: null, iconPath: 'assets/images/recurrence_icons/r004.jpg'),
 ];
 final formattedDate = DateFormat('dd-MM-yyyy');

@@ -76,3 +76,11 @@ TextStyle skillsBody = anyStyle(start: start, fontSize: 16);
 TextStyle skillsBodySmall = anyStyle(start: start, fontSize: 13);
 TextStyle footerBig = anyStyle(start: start, fontWeight: FontWeight.bold, fontSize: 16);
 TextStyle footerSmall = anyStyle(start: start, fontWeight: FontWeight.w600, fontSize: 12);
+
+TextStyle getContextStyle(BuildContext context) {
+  return anyStyle(start: start, color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.w700, fontSize: 24);
+}
+
+TextStyle getContextHelperStyle(BuildContext context) {
+  return anyStyle(start: start, color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.w500, fontSize: 12);
+}
