@@ -1,12 +1,9 @@
-import 'package:cash_flow_facts/presentation/config/constants.dart';
 import 'package:fpdart/fpdart.dart';
 import '../../data/models/params.dart';
 import '../../core/errors/failures.dart';
 import '../../core/usecases/usecase.dart';
 import '../entities/transaction.dart';
-import '../entities/user.dart';
 import '../repositories/repositories_all.dart';
-import '../../presentation/config/navigation/global_nav.dart';
 
 class TransactionUser extends UseCase<List<Transaction>, Params> {
   final TransactionRepository repository;
@@ -15,11 +12,12 @@ class TransactionUser extends UseCase<List<Transaction>, Params> {
   // not used
   @override
   Future<Either<Failure, List<Transaction>>> call(Params params) async {
-    return await repository.transactionList(GlobalNav.instance.sharedPreferences!.getInt(AppConstants.userId)!, 1);
+    // needs to change
+    return await repository.transactionList(1);
   }
 
   Future<Either<Failure, List<Transaction>>> getTransactions(int userId, int accountId) async {
-    return await repository.transactionList(userId, accountId);
+    return await repository.transactionList(accountId);
   }
 
   Future<Either<Failure, List<Transaction>>> insertTransaction(Transaction transaction) async {

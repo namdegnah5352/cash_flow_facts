@@ -1,4 +1,5 @@
 import 'package:cash_flow_facts/domain/calls/transaction_calls.dart';
+import 'package:cash_flow_facts/presentation/config/constants.dart';
 import 'package:flutter/material.dart';
 import '../../widgets/common_widgets.dart';
 import '../../config/navigation/global_nav.dart';
@@ -21,14 +22,15 @@ class TransStep4 extends StatefulWidget {
 class _TransStep4State extends State<TransStep4> {
   final formKey = GlobalKey<FormState>();
   late final TextEditingController controller;
+  var recurrenceId = AppConstants.createIDConstant;
   FocusNode focusNode = FocusNode();
   @override
   void initState() {
     controller = TextEditingController();
     // see here if the object has any data
-    String? data = GlobalNav.instance.transactionJourney.modelData.step4;
-    if (data != null && data.isNotEmpty) {
-      controller.text = data;
+    int data = GlobalNav.instance.transactionJourney.modelData.recurrenceId;
+    if (data != AppConstants.createIDConstant) {
+      controller.text = recurrences.firstWhere((recurrence) => recurrence.id == data).title;
     }
     focusNode.requestFocus();
     super.initState();
@@ -50,7 +52,7 @@ class _TransStep4State extends State<TransStep4> {
           final isValid = formKey.currentState!.validate();
           if (!isValid) return;
           formKey.currentState!.save();
-          globalNav.transactionJourney.modelData.step4 = controller.text;
+          globalNav.transactionJourney.modelData.recurrenceId = recurrenceId;
           globalNav.setDashboardWidget(
             globalNav.transactionJourney[TransIndex.step5.index](widget.refreshDashboard, widget.account),
             NavIndex.transactions.index,
@@ -107,6 +109,7 @@ class _TransStep4State extends State<TransStep4> {
                       if (recurrence != null) {
                         setState(() {
                           controller.text = recurrence.title;
+                          recurrenceId = recurrence.id;
                         });
                       }
                     },

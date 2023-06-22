@@ -12,7 +12,7 @@ import '../../presentation/screens/transaction/trans_step2.dart';
 import '../../presentation/screens/transaction/trans_step3.dart';
 import '../../presentation/screens/transaction/trans_step4.dart';
 import '../../presentation/screens/transaction/trans_step5.dart';
-import '../../presentation/widgets/common_widgets.dart';
+import '../../presentation/config/style/text_styles.dart';
 
 GlobalNav globalNav = GlobalNav.instance;
 
@@ -21,7 +21,7 @@ void navigateToNewTransaction() async {
   await loadTransaction(Transaction(
     id: AppConstants.createIDConstant,
     amount: 0.0,
-    plannedDate: null,
+    nextTransactionDate: null,
     processed: false,
     title: '',
     userId: AppConstants.createIDConstant,
@@ -45,7 +45,7 @@ Future<void> loadTransaction(Transaction transaction) async {
   await globalNav.appNavigation.pushNamed(NavigationPaths.transaction, arguments: parts);
 }
 
-Future<Widget> returTransactionsScreen(Account account, Function rebuildDashboard) async {
+Future<Widget> returnTransactionsScreen(Account account, Function rebuildDashboard) async {
   List<Transaction> transactions = await globalNav.transactionLink!.getListTransactions(account.id);
   return TransactionList(transactions, rebuildDashboard, account);
 }
@@ -83,7 +83,7 @@ Future<Recurrence?> showRecurrenceDialog(BuildContext context) async {
     context: context,
     barrierDismissible: true,
     builder: (_) => SimpleDialog(
-      title: const Text('Gap till next transaction'),
+      title: Text('Gap till next transaction', style: getDialogHeaderStyle(context)),
       contentPadding: const EdgeInsets.all(15),
       elevation: 2.0,
       shape: RoundedRectangleBorder(
@@ -104,7 +104,7 @@ List<Widget> _convertRecurrences(BuildContext context) {
     lsdo.add(Row(
       children: <Widget>[
         const SizedBox(width: 5),
-        IconListImage(recurrence.iconPath, 25),
+        Icon(recurrence.icon, color: Theme.of(context).colorScheme.primary, size: 25),
         const SizedBox(width: 3),
         SimpleDialogOption(
           child: Text(recurrence.title),

@@ -26,8 +26,8 @@ class _TransStep1State extends State<TransStep1> {
   void initState() {
     controller = TextEditingController();
     // see here if the object has any data
-    String? data = GlobalNav.instance.transactionJourney.modelData.step1;
-    if (data != null && data.isNotEmpty) {
+    String? data = GlobalNav.instance.transactionJourney.modelData.title;
+    if (data.isNotEmpty) {
       controller.text = data;
     }
     focusNode.requestFocus();
@@ -50,7 +50,7 @@ class _TransStep1State extends State<TransStep1> {
           final isValid = formKey.currentState!.validate();
           if (!isValid) return;
           formKey.currentState!.save();
-          globalNav.transactionJourney.modelData.step1 = controller.text;
+          globalNav.transactionJourney.modelData.title = controller.text;
           globalNav.setDashboardWidget(
             globalNav.transactionJourney[TransIndex.step2.index](widget.refreshDashboard, widget.account),
             NavIndex.transactions.index,
@@ -68,7 +68,7 @@ class _TransStep1State extends State<TransStep1> {
               icon: const Icon(Icons.arrow_back_outlined),
               selectedIcon: const Icon(Icons.arrow_back),
               onPressed: () {
-                GlobalNav.instance.setDashboardWidget(returTransactionsScreen(widget.account, widget.refreshDashboard), NavIndex.transactions.index);
+                GlobalNav.instance.setDashboardWidget(returnTransactionsScreen(widget.account, widget.refreshDashboard), NavIndex.transactions.index);
                 widget.refreshDashboard();
               }),
           const Spacer(),

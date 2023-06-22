@@ -37,12 +37,7 @@ class AddInterest {
 
     List<CashAction> actions = [];
     InterestTrans tb = InterestTrans(
-        id: AccountTypesNames.no_id,
-        userId: AccountTypesNames.no_user_id,
-        title: '${toAccount.accountName} interest',
-        plannedDate: null,
-        amount: 0,
-        processed: 0);
+        id: AccountTypesNames.no_id, userId: AccountTypesNames.no_user_id, title: '${toAccount.accountName} interest', nextTransactionDate: null, amount: 0, processed: 0);
     // set the beginng and end dates
     begin = (toAccount as InterestPerDay).accountStart!;
     ongoing = (toAccount as InterestPerDay).accountEnd == null;
@@ -61,11 +56,7 @@ class AddInterest {
         day = day.endOfthisMonth();
         while (day.isBeforeOrEqual(end)) {
           if (!ongoing && day.isWithinThisMonth((toAccount as InterestPerDay).accountEnd!)) {
-            actions.add(CashActionDayEvent(
-                tb: tb,
-                account: toAccount,
-                plannedDate: (toAccount as InterestPerDay).accountEnd!,
-                amount: AppConstants.noBalance));
+            actions.add(CashActionDayEvent(tb: tb, account: toAccount, plannedDate: (toAccount as InterestPerDay).accountEnd!, amount: AppConstants.noBalance));
           } else {
             actions.add(CashActionDayEvent(tb: tb, account: toAccount, plannedDate: day, amount: AppConstants.noBalance));
           }
@@ -77,11 +68,7 @@ class AddInterest {
         day = day.plusOneYear();
         while (day.isBeforeOrEqual(end)) {
           if (!ongoing && day.isWithinOneYear((toAccount as InterestPerDay).accountEnd!)) {
-            actions.add(CashActionDayEvent(
-                tb: tb,
-                account: toAccount,
-                plannedDate: (toAccount as InterestPerDay).accountEnd!,
-                amount: AppConstants.noBalance));
+            actions.add(CashActionDayEvent(tb: tb, account: toAccount, plannedDate: (toAccount as InterestPerDay).accountEnd!, amount: AppConstants.noBalance));
           } else {
             actions.add(CashActionDayEvent(tb: tb, account: toAccount, plannedDate: day, amount: AppConstants.noBalance));
           }

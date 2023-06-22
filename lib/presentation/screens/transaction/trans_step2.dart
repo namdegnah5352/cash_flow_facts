@@ -30,10 +30,10 @@ class _TransStep2State extends State<TransStep2> {
   void initState() {
     controller = TextEditingController();
     // see here if the object has any data
-    String? data = GlobalNav.instance.transactionJourney.modelData.step2;
-    if (data != null && data.isNotEmpty) {
-      controller.text = data;
-      selectedDate = convertFormattedDate(controller.text);
+    DateTime? data = GlobalNav.instance.transactionJourney.modelData.nextTransactionDate;
+    if (data != null) {
+      controller.text = formattedDate.format(data);
+      selectedDate = data;
     }
     focusNode.requestFocus();
     super.initState();
@@ -55,7 +55,7 @@ class _TransStep2State extends State<TransStep2> {
           final isValid = formKey.currentState!.validate();
           if (!isValid) return;
           formKey.currentState!.save();
-          globalNav.transactionJourney.modelData.step2 = controller.text;
+          globalNav.transactionJourney.modelData.nextTransactionDate = convertFormattedDate(controller.text);
           globalNav.setDashboardWidget(
             globalNav.transactionJourney[TransIndex.step3.index](widget.refreshDashboard, widget.account),
             NavIndex.transactions.index,

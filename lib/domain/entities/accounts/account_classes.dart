@@ -16,7 +16,7 @@ class InterestTrans extends TransBase {
     required super.id,
     required super.userId,
     required super.title,
-    required super.plannedDate,
+    required super.nextTransactionDate,
     required super.amount,
     required super.processed,
   });

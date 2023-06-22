@@ -84,3 +84,7 @@ TextStyle getContextStyle(BuildContext context) {
 TextStyle getContextHelperStyle(BuildContext context) {
   return anyStyle(start: start, color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.w500, fontSize: 12);
 }
+
+TextStyle getDialogHeaderStyle(BuildContext context) {
+  return anyStyle(start: getContextHelperStyle(context), fontSize: 16);
+}

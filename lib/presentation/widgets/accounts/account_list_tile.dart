@@ -54,7 +54,7 @@ class AccountListTile extends StatelessWidget {
           onTap: () {
             listCallback(account.id);
             // I think this is built by clicking on the dashboard bottom navigation bar - transaction
-            GlobalNav.instance.setDashboardWidget(returTransactionsScreen(account, rebuildDashboard), NavIndex.transactions.index);
+            GlobalNav.instance.setDashboardWidget(returnTransactionsScreen(account, rebuildDashboard), NavIndex.transactions.index);
           },
           tileColor: selectedAccountId == account.id ? Theme.of(context).colorScheme.onSurfaceVariant : Theme.of(context).colorScheme.surfaceVariant,
           leading: _getCirclePricedCurrency(),

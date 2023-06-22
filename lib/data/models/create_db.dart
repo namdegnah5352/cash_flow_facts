@@ -21,8 +21,7 @@ class CreateDataBase {
 
 // USERS
 class UserSQL {
-  static const userSql =
-      'CREATE TABLE ${UserNames.tableName}(${UserNames.id} INTEGER PRIMARY KEY, ${UserNames.name} TEXT, ${UserNames.email} TEXT, ${UserNames.password} TEXT )';
+  static const userSql = 'CREATE TABLE ${UserNames.tableName}(${UserNames.id} INTEGER PRIMARY KEY, ${UserNames.name} TEXT, ${UserNames.email} TEXT, ${UserNames.password} TEXT )';
   static const userIndex = 'CREATE UNIQUE INDEX index_users ON ${UserNames.tableName}(id);';
   static const insertUsers =
       'INSERT INTO ${UserNames.tableName}(${UserNames.id}, ${UserNames.name}, ${UserNames.email}, ${UserNames.password}) VALUES (1, "Paul", "paul_brassington@hotmail.com", "a") ,(2, "Campbell", "cambell@weir.com", "a") , (3, "Ting", "yuting_yuting@hotmail.com", "a") , (4, "Roy", "royston@google.com", "a") , (5, "Stephen", "stephen@yahoo.com", "a") , (6, "Jiayuan", "jiayuan@google.com", "a")';
@@ -48,8 +47,7 @@ class AccountSQL {
       ${UserAccountNames.user_id} INTEGER REFERENCES ${UserNames.tableName}(${UserNames.id} ) ON DELETE CASCADE, 
       ${UserAccountNames.account_id} INTEGER REFERENCES ${AccountNames.tableName} (${AccountNames.id}) ON DELETE CASCADE)
     ''';
-  static const userAccountIndex =
-      'CREATE UNIQUE INDEX index_user_account ON ${UserAccountNames.tableName} (${UserAccountNames.user_id} ,${UserAccountNames.account_id});';
+  static const userAccountIndex = 'CREATE UNIQUE INDEX index_user_account ON ${UserAccountNames.tableName} (${UserAccountNames.user_id} ,${UserAccountNames.account_id});';
   static List<String> getSQL() {
     return [accountSql, accountIndex, userAccountSql, userAccountIndex];
   }
@@ -96,8 +94,7 @@ class TransferSQL {
   static const transferSql =
       'CREATE TABLE ${TransfersNames.tableName}(${TransfersNames.id} INTEGER PRIMARY KEY, ${TransfersNames.user_id} INTEGER REFERENCES ${UserNames.tableName}(${UserNames.id}) ON DELETE CASCADE, ${TransfersNames.title} TEXT, ${TransfersNames.description} TEXT, ${TransfersNames.fromAccountId} INTEGER, ${TransfersNames.toAccountId} INTEGER, ${TransfersNames.categoryId} INTEGER, ${TransfersNames.recurrenceId} INTEGER, ${TransfersNames.plannedDate} TEXT, ${TransfersNames.amount} REAL, ${TransfersNames.usedForCashFlow} INTEGER, ${TransfersNames.processed} INTEGER )';
   static const transferIndex = 'CREATE UNIQUE INDEX index_transfers ON ${TransfersNames.tableName}(${TransfersNames.id});';
-  static const transferUserIndex =
-      'CREATE INDEX index_transfers_users ON ${TransfersNames.tableName}(${TransfersNames.user_id});';
+  static const transferUserIndex = 'CREATE INDEX index_transfers_users ON ${TransfersNames.tableName}(${TransfersNames.user_id});';
   static List<String> getSQL() {
     return [transferSql, transferIndex, transferUserIndex];
   }
@@ -106,11 +103,9 @@ class TransferSQL {
 // Planned Transactions
 class TransactionsSQL {
   static const transactionSql =
-      'CREATE TABLE ${TransactionNames.tableName}(${TransactionNames.id} INTEGER PRIMARY KEY, ${TransactionNames.user_id} INTEGER REFERENCES ${UserNames.tableName}(${UserNames.id}) ON DELETE CASCADE, ${TransactionNames.title} TEXT, ${TransactionNames.description} TEXT, ${TransactionNames.accountId} INTEGER, ${TransactionNames.categoryId} INTEGER, ${TransactionNames.recurrenceId} INTEGER, ${TransactionNames.plannedDate} TEXT, ${TransactionNames.amount} REAL, ${TransactionNames.credit} INTEGER, ${TransactionNames.usedForCashFlow} INTEGER, ${TransactionNames.processed} INTEGER )';
-  static const transactionIndex =
-      'CREATE UNIQUE INDEX index_transactions ON ${TransactionNames.tableName}(${TransactionNames.id});';
-  static const transactionUserIndex =
-      'CREATE INDEX index_transactions_users ON ${TransactionNames.tableName}(${TransactionNames.user_id});';
+      'CREATE TABLE ${TransactionNames.tableName}(${TransactionNames.id} INTEGER PRIMARY KEY, ${TransactionNames.user_id} INTEGER REFERENCES ${UserNames.tableName}(${UserNames.id}) ON DELETE CASCADE, ${TransactionNames.title} TEXT, ${TransactionNames.description} TEXT, ${TransactionNames.accountId} INTEGER, ${TransactionNames.categoryId} INTEGER, ${TransactionNames.recurrenceId} INTEGER, ${TransactionNames.nextTransactionDate} TEXT, ${TransactionNames.amount} REAL, ${TransactionNames.credit} INTEGER, ${TransactionNames.usedForCashFlow} INTEGER, ${TransactionNames.processed} INTEGER )';
+  static const transactionIndex = 'CREATE UNIQUE INDEX index_transactions ON ${TransactionNames.tableName}(${TransactionNames.id});';
+  static const transactionUserIndex = 'CREATE INDEX index_transactions_users ON ${TransactionNames.tableName}(${TransactionNames.user_id});';
   static List<String> getSQL() {
     return [transactionSql, transactionIndex, transactionUserIndex];
   }
@@ -124,8 +119,7 @@ class AccountSavingsSQL {
   // USER SAVINGS
   static const userSavingsSql =
       'CREATE TABLE ${UserSavingsNames.tableName}(${UserSavingsNames.user_id} INTEGER REFERENCES ${UserNames.tableName}(${UserNames.id}) ON DELETE CASCADE, ${UserSavingsNames.account_id} INTEGER REFERENCES ${AccountSavingsNames.tableName}(${AccountNames.id}) ON DELETE CASCADE)';
-  static const userSavingsIndex =
-      'CREATE UNIQUE INDEX index_user_account_savings ON ${UserSavingsNames.tableName}(${UserSavingsNames.user_id}, ${UserSavingsNames.account_id});';
+  static const userSavingsIndex = 'CREATE UNIQUE INDEX index_user_account_savings ON ${UserSavingsNames.tableName}(${UserSavingsNames.user_id}, ${UserSavingsNames.account_id});';
   static List<String> getSQL() {
     return [savingsAccountSql, savingsAccountIndex, userSavingsSql, userSavingsIndex];
   }
@@ -135,8 +129,7 @@ class AccountSavingsSQL {
 class AccountSimpleSavingsSQL {
   static const simpleSavingsAccountSql =
       'CREATE TABLE ${AccountSimpleSavingsNames.tableName}(${AccountNames.id} INTEGER PRIMARY KEY, ${AccountNames.accountName} TEXT, ${AccountNames.description} TEXT, ${AccountNames.balance} DOUBLE PRECISION, ${AccountNames.usedForCashFlow} INTEGER, ${AccountSimpleSavingsNames.savingsRate} REAL, ${AccountSimpleSavingsNames.addInterestId} INTEGER, ${AccountSimpleSavingsNames.chargeRate} DOUBLE, ${AccountSimpleSavingsNames.charge_recurrenceId} INTEGER, ${AccountSimpleSavingsNames.accountStart} INTEGER, ${AccountSimpleSavingsNames.accountEnd} INTEGER, ${AccountSimpleSavingsNames.lastInterestAdded} INTEGER, ${AccountSimpleSavingsNames.interestAccrued} DOUBLE PRECISION )';
-  static const simpleSavingsAccountIndex =
-      'CREATE UNIQUE INDEX index_account_simple_saving ON ${AccountSimpleSavingsNames.tableName}(id);';
+  static const simpleSavingsAccountIndex = 'CREATE UNIQUE INDEX index_account_simple_saving ON ${AccountSimpleSavingsNames.tableName}(id);';
   // USER SIMPLE SAVINGS
   static const userSimpleSavingsSql =
       'CREATE TABLE ${UserSimpleSavingsNames.tableName}(${UserSimpleSavingsNames.user_id} INTEGER REFERENCES ${UserNames.tableName}(${UserNames.id}) ON DELETE CASCADE, ${UserSimpleSavingsNames.account_id} INTEGER REFERENCES ${AccountSimpleSavingsNames.tableName}(${AccountNames.id}) ON DELETE CASCADE)';
@@ -149,16 +142,14 @@ class AccountSimpleSavingsSQL {
 
 // SETTINGS
 class SettingsSQL {
-  static const settingsSql =
-      'CREATE TABLE ${SettingNames.tableName}(${SettingNames.id} INTEGER PRIMARY KEY, ${SettingNames.settingName} TEXT)';
+  static const settingsSql = 'CREATE TABLE ${SettingNames.tableName}(${SettingNames.id} INTEGER PRIMARY KEY, ${SettingNames.settingName} TEXT)';
   static const settingsIndex = 'CREATE UNIQUE INDEX index_settings ON ${SettingNames.tableName}(id);';
   static String settingsInsert =
       'INSERT INTO ${SettingNames.tableName}(${SettingNames.id}, ${SettingNames.settingName}) VALUES (1, "Auto Processing") , (2, "Auto Archive") , (3, "Bar Chart") , (4, "Currency") , (5, "End Date")';
   // USER SETTINGS
   static const userSettingSql =
       'CREATE TABLE ${UserSettingNames.tableName}(${UserSettingNames.user_id} INTEGER REFERENCES ${UserNames.tableName}(${UserNames.id}) ON DELETE CASCADE, ${UserSettingNames.setting_id} INTGER REFERENCES ${SettingNames.tableName}(${SettingNames.id}) ON DELETE CASCADE, ${UserSettingNames.value} INTEGER )';
-  static const userSettingsIndex =
-      'CREATE UNIQUE INDEX index_user_setting ON ${UserSettingNames.tableName}(${UserSettingNames.user_id}, ${UserSettingNames.setting_id});';
+  static const userSettingsIndex = 'CREATE UNIQUE INDEX index_user_setting ON ${UserSettingNames.tableName}(${UserSettingNames.user_id}, ${UserSettingNames.setting_id});';
   static List<String> getSQL() {
     return [settingsSql, settingsIndex, settingsInsert, userSettingSql, userSettingsIndex];
   }
@@ -185,8 +176,7 @@ class AcccountAddInterestSQL {
       'CREATE TABLE ${AddInterestNames.tableName}(${AddInterestNames.id} INTEGER PRIMARY KEY, ${AddInterestNames.title} TEXT, ${AddInterestNames.description} TEXT, ${AddInterestNames.iconPath} TEXT, ${AddInterestNames.type} INTEGER )';
   static const addInterestInsert =
       'INSERT INTO ${AddInterestNames.tableName}(${AddInterestNames.id}, ${AddInterestNames.title}, ${AddInterestNames.description}, ${AddInterestNames.iconPath}, ${AddInterestNames.type}) VALUES (1, "End of Period", "Interest added at the end of the Savings Period", "assets/images/add_interest_icons/ai001.png", 0) ,(2, "1st each Month", "Interest added at the first of each month", "assets/images/add_interest_icons/ai002.png", 1) ,(3, "End of each Month", "Interest added at the end of each month", "assets/images/add_interest_icons/ai003.png", 2) ,(4, "End of year", "Interest added at the end of each year", "assets/images/add_interest_icons/ai004.png", 3) , (5, "Start of quarter", "Interest added at the start of each quarter", "assets/images/add_interest_icons/ai005.png", 4) ,(6, "End of quarter", "Interest added at the end of each quarter", "assets/images/add_interest_icons/ai006.png", 5) ,(7, "End of fiscal year", "Interest added at the end of fiscal year", "assets/images/add_interest_icons/ai007.png", 6)';
-  static const addInterestIndex =
-      'CREATE UNIQUE INDEX index_add_interest ON ${AddInterestNames.tableName}(${AddInterestNames.id});';
+  static const addInterestIndex = 'CREATE UNIQUE INDEX index_add_interest ON ${AddInterestNames.tableName}(${AddInterestNames.id});';
   static List<String> getSQL() {
     return [addInterestSql, addInterestInsert, addInterestIndex];
   }

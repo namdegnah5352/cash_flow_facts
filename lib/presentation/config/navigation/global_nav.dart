@@ -8,7 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../constants.dart';
 import '../../../core/util/journey_list.dart';
 //Journey
-import '../../../domain/entities/transaction_journey.dart';
+import '../../../domain/entities/transaction.dart';
 import '../../../data/models/constant_classes.dart';
 //Datasource
 import '../../../data/datasources/datasources.dart';
@@ -31,8 +31,7 @@ import '../../link/transaction_link.dart';
 class GlobalNav {
   late final SharedPreferences? sharedPreferences;
   late final AppNavigation appNavigation;
-  // late final JourneyList<Future<void> Function(Function), TransactionJourney> transactionJourney;
-  late final JourneyList<Future<Widget> Function(Function, Account), TransactionJourney> transactionJourney;
+  late final JourneyList<Future<Widget> Function(Function, Account), Transaction> transactionJourney;
   SettingsData? settingsData;
   AppDataSource? appDataSource;
   //User
@@ -72,7 +71,7 @@ class GlobalNav {
     // load backend classes
     appDataSource = LocalDataSource();
     //Journey
-    transactionJourney = JourneyList(TransactionJourney());
+    transactionJourney = JourneyList(Transaction.startUp());
     transactionJourney.addAll([loadStep1, loadStep2, loadStep3, loadStep4, loadStep5]);
     //user
     userRepository = UserRepositoryImp(dataSource: appDataSource!);

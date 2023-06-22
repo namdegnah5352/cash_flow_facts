@@ -60,7 +60,7 @@ class TransactionList extends StatelessWidget {
           SliverList(
             delegate: SliverChildBuilderDelegate(
               (_, index) {
-                return TransactionListTile(transactions[index]);
+                return TransactionListTile(transactions[index], rebuildDashboard, account);
               },
               childCount: transactions.length,
             ),

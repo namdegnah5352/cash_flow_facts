@@ -1,12 +1,14 @@
+import 'package:flutter/material.dart';
+
 class Recurrence {
   int id;
   String title;
   Duration? duration;
-  String iconPath;
+  IconData icon;
   Recurrence({
     required this.id,
     required this.title,
     required this.duration,
-    required this.iconPath,
+    required this.icon,
   });
 }

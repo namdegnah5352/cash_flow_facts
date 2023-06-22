@@ -47,6 +47,10 @@ class TransactionLink {
     _linkTransactions(either);
   }
 
+  Future<Either<Failure, List<Transaction>>> deleteTransaction(Transaction transaction) async {
+    return transactionUser.deleteTransaction(transaction);
+  }
+
   void linkUpdateTransaction(Transaction transaction) async {
     var either = await transactionUser.updateTransaction(transaction);
     _linkTransactions(either);
@@ -55,5 +59,9 @@ class TransactionLink {
   void linkCreateTransaction(Transaction transaction) async {
     var either = await transactionUser.insertTransaction(transaction);
     _linkTransactions(either);
+  }
+
+  Future<Either<Failure, List<Transaction>>> insertTransaction(Transaction transaction) async {
+    return transactionUser.insertTransaction(transaction);
   }
 }

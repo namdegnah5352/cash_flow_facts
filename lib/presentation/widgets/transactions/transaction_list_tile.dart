@@ -4,11 +4,14 @@ import '../../../domain/calls/transaction_calls.dart';
 import '../../config/navigation/global_nav.dart';
 import '../../config/style/app_colors.dart';
 import 'package:intl/intl.dart';
+import '../../config/enums.dart';
+import '../../../domain/entities/accounts/account.dart';
 
 class TransactionListTile extends StatelessWidget {
   final Transaction transaction;
-  // String currencySymbol =Currencies.currencyValue(sl<Setting>().currency);
-  const TransactionListTile(this.transaction, {super.key});
+  final Function rebuildDashboard;
+  final Account account;
+  const TransactionListTile(this.transaction, this.rebuildDashboard, this.account, {super.key});
 
   Widget _getCirclePricedCurrency() {
     var numb;
@@ -58,8 +61,10 @@ class TransactionListTile extends StatelessWidget {
                 IconButton(
                   icon: Icon(Icons.delete),
                   onPressed: () {
-                    Navigator.pop(context);
-                    GlobalNav.instance.transactionLink!.linkDeleteTransaction(transaction);
+                    GlobalNav.instance.transactionLink!.deleteTransaction(transaction).then((_) {
+                      rebuildDashboard();
+                    });
+                    globalNav.setDashboardWidget(returnTransactionsScreen(account, rebuildDashboard), NavIndex.transactions.index);
                   },
                 ),
               ],

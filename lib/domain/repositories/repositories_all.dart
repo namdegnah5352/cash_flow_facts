@@ -22,7 +22,7 @@ abstract class AccountRepository {
 
 abstract class TransactionRepository {
   Future<Either<Failure, List<Transaction>>> insertTransaction(Transaction transaction);
-  Future<Either<Failure, List<Transaction>>> transactionList(int userId, int accountId);
+  Future<Either<Failure, List<Transaction>>> transactionList(int accountId);
   Future<Either<Failure, List<Transaction>>> deleteTransaction(Transaction transaction);
   Future<Either<Failure, List<Transaction>>> updateTransaction(Transaction transaction);
 }
