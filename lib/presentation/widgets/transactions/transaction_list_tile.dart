@@ -6,6 +6,7 @@ import '../../config/style/app_colors.dart';
 import 'package:intl/intl.dart';
 import '../../config/enums.dart';
 import '../../../domain/entities/accounts/account.dart';
+import '../../config/style/text_styles.dart';
 
 class TransactionListTile extends StatelessWidget {
   final Transaction transaction;
@@ -46,20 +47,21 @@ class TransactionListTile extends StatelessWidget {
       children: <Widget>[
         ListTile(
           leading: _getCirclePricedCurrency(),
-          title: Text(transaction.title),
-          trailing: Container(
+          title: Text(transaction.title, style: oppositeWay(context)),
+          trailing: SizedBox(
             width: 100,
             child: Row(
               children: <Widget>[
                 IconButton(
-                  icon: Icon(Icons.edit),
+                  icon: const Icon(Icons.edit),
                   onPressed: () {
-                    Navigator.pop(context);
-                    navigateToExistingTransaction(transaction);
+                    globalNav.transactionJourney.init(transaction);
+                    globalNav.setDashboardWidget(globalNav.transactionJourney.start()(rebuildDashboard, account), NavIndex.transactions.index);
+                    rebuildDashboard();
                   },
                 ),
                 IconButton(
-                  icon: Icon(Icons.delete),
+                  icon: const Icon(Icons.delete),
                   onPressed: () {
                     GlobalNav.instance.transactionLink!.deleteTransaction(transaction).then((_) {
                       rebuildDashboard();

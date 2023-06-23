@@ -7,6 +7,7 @@ import '../../config/style/app_colors.dart';
 import 'package:intl/intl.dart';
 import '../../../domain/calls/transaction_calls.dart';
 import 'package:cash_flow_facts/presentation/config/constants.dart';
+import '../../config/style/text_styles.dart';
 
 class AccountListTile extends StatelessWidget {
   final Account account;
@@ -56,9 +57,12 @@ class AccountListTile extends StatelessWidget {
             // I think this is built by clicking on the dashboard bottom navigation bar - transaction
             GlobalNav.instance.setDashboardWidget(returnTransactionsScreen(account, rebuildDashboard), NavIndex.transactions.index);
           },
-          tileColor: selectedAccountId == account.id ? Theme.of(context).colorScheme.onSurfaceVariant : Theme.of(context).colorScheme.surfaceVariant,
+          tileColor: selectedAccountId == account.id ? Theme.of(context).colorScheme.primaryContainer : Theme.of(context).colorScheme.onPrimary,
           leading: _getCirclePricedCurrency(),
-          title: Text(account.accountName),
+          title: Text(
+            account.accountName,
+            style: selectedAccountId == account.id ? oppositeWay(context) : getContextHelperStyle(context),
+          ),
           trailing: SizedBox(
             width: 100,
             child: Row(

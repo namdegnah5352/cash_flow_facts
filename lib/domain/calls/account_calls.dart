@@ -26,15 +26,15 @@ Future<void> loadAccounts() async {
 }
 
 Future<void> loadAccount(Account account) async {
-  List<User> users = await globalNav.userLink!.getListUsers();
-  ({Account account, List<User> users}) parts;
-  parts = (account: account, users: users);
-  await globalNav.appNavigation.pushNamed(NavigationPaths.account, arguments: parts);
+  // List<User> users = await globalNav.userLink!.getListUsers();
+  // ({Account account, List<User> users}) parts;
+  // parts = (account: account, users: users);
+  await globalNav.appNavigation.pushNamed(NavigationPaths.account, arguments: account);
 }
 
 Future<Widget> returAccountScreen(Account account) async {
-  List<User> users = await globalNav.userLink!.getListUsers();
-  return AccountScreen(account: account, users: users);
+  // List<User> users = await globalNav.userLink!.getListUsers();
+  return AccountScreen(account: account);
 }
 
 Future<Widget> returnDashBoadScreen() async {

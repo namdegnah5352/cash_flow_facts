@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fpdart/fpdart.dart';
 import '../../../domain/calls/transaction_calls.dart';
 import '../../../domain/entities/transaction.dart';
 import '../../../domain/entities/accounts/account.dart';
@@ -30,6 +31,7 @@ class TransactionList extends StatelessWidget {
               IconButton(
                 icon: const Icon(Icons.add),
                 onPressed: () async {
+                  globalNav.transactionJourney.init(Transaction.startUp());
                   globalNav.setDashboardWidget(globalNav.transactionJourney.start()(rebuildDashboard, account), NavIndex.transactions.index);
                   rebuildDashboard();
                 },
@@ -70,7 +72,3 @@ class TransactionList extends StatelessWidget {
     );
   }
 }
-
-// extension BuyingVerbs on JourneyList<Future<void> Function(Widget), TransactionJourney> {
-//   void init(TransactionJourney newJourney) => modelData = newJourney;
-// }

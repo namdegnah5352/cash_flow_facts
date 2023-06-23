@@ -103,7 +103,7 @@ class TransferSQL {
 // Planned Transactions
 class TransactionsSQL {
   static const transactionSql =
-      'CREATE TABLE ${TransactionNames.tableName}(${TransactionNames.id} INTEGER PRIMARY KEY, ${TransactionNames.user_id} INTEGER REFERENCES ${UserNames.tableName}(${UserNames.id}) ON DELETE CASCADE, ${TransactionNames.title} TEXT, ${TransactionNames.description} TEXT, ${TransactionNames.accountId} INTEGER, ${TransactionNames.categoryId} INTEGER, ${TransactionNames.recurrenceId} INTEGER, ${TransactionNames.nextTransactionDate} TEXT, ${TransactionNames.amount} REAL, ${TransactionNames.credit} INTEGER, ${TransactionNames.usedForCashFlow} INTEGER, ${TransactionNames.processed} INTEGER )';
+      'CREATE TABLE ${TransactionNames.tableName}(${TransactionNames.id} INTEGER PRIMARY KEY, ${TransactionNames.user_id} INTEGER REFERENCES ${UserNames.tableName}(${UserNames.id}) ON DELETE CASCADE, ${TransactionNames.title} TEXT, ${TransactionNames.description} TEXT, ${TransactionNames.accountId} INTEGER, ${TransactionNames.categoryId} INTEGER, ${TransactionNames.recurrenceId} INTEGER, ${TransactionNames.nextTransactionDate} TEXT, ${TransactionNames.endDate} TEXT, ${TransactionNames.amount} REAL, ${TransactionNames.credit} INTEGER, ${TransactionNames.usedForCashFlow} INTEGER, ${TransactionNames.processed} INTEGER )';
   static const transactionIndex = 'CREATE UNIQUE INDEX index_transactions ON ${TransactionNames.tableName}(${TransactionNames.id});';
   static const transactionUserIndex = 'CREATE INDEX index_transactions_users ON ${TransactionNames.tableName}(${TransactionNames.user_id});';
   static List<String> getSQL() {

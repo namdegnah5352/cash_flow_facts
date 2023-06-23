@@ -5,6 +5,7 @@ import '../../widgets/common_widgets.dart';
 import '../../config/navigation/global_nav.dart';
 import '../../config/enums.dart';
 import '../../../domain/entities/accounts/account.dart';
+import '../../../domain/entities/recurrence.dart';
 import '../../config/style/text_styles.dart';
 import '../../../core/util/validators.dart';
 
@@ -30,7 +31,9 @@ class _TransStep4State extends State<TransStep4> {
     // see here if the object has any data
     int data = GlobalNav.instance.transactionJourney.modelData.recurrenceId;
     if (data != AppConstants.createIDConstant) {
-      controller.text = recurrences.firstWhere((recurrence) => recurrence.id == data).title;
+      Recurrence recurrence = recurrences.firstWhere((element) => element.id == data);
+      recurrenceId = recurrence.id;
+      controller.text = recurrence.title;
     }
     focusNode.requestFocus();
     super.initState();

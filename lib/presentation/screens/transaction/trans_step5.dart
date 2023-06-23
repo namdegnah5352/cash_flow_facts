@@ -56,14 +56,7 @@ class _TransStep5State extends State<TransStep5> {
           final isValid = formKey.currentState!.validate();
           if (!isValid) return;
           formKey.currentState!.save();
-          var trans = globalNav.transactionJourney.modelData;
-          trans.endDate = convertFormattedDate(controller.text);
-          trans.accountId = widget.account.id;
-          trans.userId = globalNav.sharedPreferences!.getInt(AppConstants.userId)!;
-          globalNav.transactionLink!.insertTransaction(trans).then((value) {
-            widget.refreshDashboard();
-          });
-          globalNav.setDashboardWidget(returnTransactionsScreen(widget.account, widget.refreshDashboard), NavIndex.transactions.index);
+          createOrUpdate(globalNav, controller, widget.account, widget.refreshDashboard);
         },
         enableButton: controller.text.isNotEmpty,
         label: 'Save',

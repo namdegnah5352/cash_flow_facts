@@ -10,14 +10,14 @@ import '../../domain/calls/account_calls.dart';
 
 class AccountScreen extends StatefulWidget {
   final Account account;
-  final List<User> users;
-  const AccountScreen({required this.account, required this.users, super.key});
+  const AccountScreen({required this.account, super.key});
 
   @override
   State<AccountScreen> createState() => _AccountScreenState();
 }
 
 class _AccountScreenState extends State<AccountScreen> {
+  Account? useAccount;
   final formKey = GlobalKey<FormState>();
   late final MultiValidator accountNameValidator;
   late final MultiValidator accountDescriptionValidator;
@@ -30,6 +30,8 @@ class _AccountScreenState extends State<AccountScreen> {
   late final TextEditingController _usedInCashFlowController;
   @override
   void initState() {
+    if (widget.account.id == AppConstants.createIDConstant) useAccount = Account.startUp();
+    useAccount ??= widget.account;
     accountNameValidator = requiredAndLength(error: 'Name must contain at least 5 characters', length: 5);
     accountDescriptionValidator = requiredAndLength(error: 'Description must contain at least 2 characters', length: 2);
     _accountNameController = TextEditingController();
@@ -44,9 +46,9 @@ class _AccountScreenState extends State<AccountScreen> {
     ]);
     validators.addAll([accountNameValidator, accountDescriptionValidator]);
     formatters.addAll([null, null]);
-    _accountNameController.text = widget.account.accountName;
-    _accountDescriptionController.text = widget.account.description;
-    _accountBalanceController.text = widget.account.balance.toString();
+    _accountNameController.text = useAccount!.accountName;
+    _accountDescriptionController.text = useAccount!.description;
+    _accountBalanceController.text = useAccount!.balance.toString();
     super.initState();
   }
 
@@ -59,14 +61,14 @@ class _AccountScreenState extends State<AccountScreen> {
     super.dispose();
   }
 
-  void _shareAccount(BuildContext context) {
-    showUsersDialog(context, widget.users).then((result) async {
-      if (result != null) {
-        Navigator.pop(context);
-        GlobalNav.instance.accountLink!.linkShareAccount(widget.account, result);
-      }
-    });
-  }
+  // void _shareAccount(BuildContext context) {
+  //   showUsersDialog(context, widget.users).then((result) async {
+  //     if (result != null) {
+  //       Navigator.pop(context);
+  //       GlobalNav.instance.accountLink!.linkShareAccount(widget.account, result);
+  //     }
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -91,16 +93,16 @@ class _AccountScreenState extends State<AccountScreen> {
             selectedIcon: const Icon(Icons.save),
             onPressed: () {
               setState(() {
-                widget.account.accountName = _accountNameController.text;
-                widget.account.description = _accountDescriptionController.text;
-                widget.account.balance = double.tryParse(_accountBalanceController.text)!;
+                useAccount!.accountName = _accountNameController.text;
+                useAccount!.description = _accountDescriptionController.text;
+                useAccount!.balance = double.tryParse(_accountBalanceController.text)!;
                 final isValid = formKey.currentState!.validate();
                 if (!isValid) return;
                 formKey.currentState!.save();
-                if (widget.account.id == AppConstants.createIDConstant) {
-                  GlobalNav.instance.accountLink!.linkCreateAccount(widget.account);
+                if (useAccount!.id == AppConstants.createIDConstant) {
+                  GlobalNav.instance.accountLink!.linkCreateAccount(useAccount!);
                 } else {
-                  GlobalNav.instance.accountLink!.linkUpdateAccount(widget.account);
+                  GlobalNav.instance.accountLink!.linkUpdateAccount(useAccount!);
                 }
                 Navigator.pop(context);
               });
@@ -110,57 +112,59 @@ class _AccountScreenState extends State<AccountScreen> {
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: Form(
-          key: formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: 20),
-              ...UserFields.values.map((userField) {
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    TextFormField(
-                      key: Key(userField.key),
-                      controller: controllers[userField.index],
-                      validator: validators[userField.index],
-                      inputFormatters: formatters[userField.index] ?? justLength36,
-                      decoration: InputDecoration(
-                        filled: true,
-                        labelText: userField.labelText,
-                        hintText: userField.hintText,
-                        helperText: userField.helperText,
-                        border: const OutlineInputBorder(),
+        child: SingleChildScrollView(
+          child: Form(
+            key: formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 20),
+                ...UserFields.values.map((userField) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      TextFormField(
+                        key: Key(userField.key),
+                        controller: controllers[userField.index],
+                        validator: validators[userField.index],
+                        inputFormatters: formatters[userField.index] ?? justLength36,
+                        decoration: InputDecoration(
+                          filled: true,
+                          labelText: userField.labelText,
+                          hintText: userField.hintText,
+                          helperText: userField.helperText,
+                          border: const OutlineInputBorder(),
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 20),
-                  ],
-                );
-              }),
-              const SizedBox(height: 20),
-              TextFormField(
-                key: Key(OtherFields.balance.key),
-                controller: _accountBalanceController,
-                inputFormatters: justNumberFormatter,
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                  filled: true,
-                  labelText: OtherFields.balance.labelText,
-                  hintText: OtherFields.balance.hintText,
-                  helperText: OtherFields.balance.helperText,
-                  border: const OutlineInputBorder(),
+                      const SizedBox(height: 20),
+                    ],
+                  );
+                }),
+                const SizedBox(height: 20),
+                TextFormField(
+                  key: Key(OtherFields.balance.key),
+                  controller: _accountBalanceController,
+                  inputFormatters: justNumberFormatter,
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                    filled: true,
+                    labelText: OtherFields.balance.labelText,
+                    hintText: OtherFields.balance.hintText,
+                    helperText: OtherFields.balance.helperText,
+                    border: const OutlineInputBorder(),
+                  ),
                 ),
-              ),
-              Switch(
-                key: Key(OtherFields.usedInCashFlow.key),
-                value: widget.account.usedForCashFlow,
-                onChanged: (value) {
-                  setState(() {
-                    widget.account.usedForCashFlow = value;
-                  });
-                },
-              ),
-            ],
+                Switch(
+                  key: Key(OtherFields.usedInCashFlow.key),
+                  value: useAccount!.usedForCashFlow,
+                  onChanged: (value) {
+                    setState(() {
+                      useAccount!.usedForCashFlow = value;
+                    });
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),

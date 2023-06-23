@@ -50,8 +50,6 @@ class _AccountListState extends State<AccountList> {
                         if (result != null) {
                           GlobalNav.instance.setDashboardWidget(result.loadThis, NavIndex.accounts.index);
                           widget.rebuildDashboard();
-                          // GlobalNav.instance.dashboardCallback!(result.loadThis, NavIndex.accounts.index);
-                          // widget.dashboardCallback(result.loadThis, NavIndex.accounts.index);
                         }
                       },
                     );

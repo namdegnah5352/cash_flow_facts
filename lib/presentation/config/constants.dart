@@ -167,6 +167,7 @@ class TransactionNames {
   static const usedForCashFlow = 'usedForCashFlow';
   static const processed = 'processed';
   static const tableName = 'plannedTransactions';
+  static const endDate = 'endDate';
   static const byName = 0;
   static const byAccount = 1;
   static const byCategory = 2;

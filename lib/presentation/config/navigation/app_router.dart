@@ -47,10 +47,10 @@ class AppRouter {
           ),
         );
       case NavigationPaths.account:
-        ({Account account, List<User> users}) parts;
-        parts = arg as ({Account account, List<User> users});
+        // ({Account account, List<User> users}) parts;
+        // parts = arg as ({Account account, List<User> users});
         return MaterialPageRoute(
-          builder: (_) => AccountScreen(account: parts.account, users: parts.users),
+          builder: (_) => AccountScreen(account: arg as Account),
         );
       // case NavigationPaths.accountList:
       //   ({List<Account> account, Function callback}) listParts;

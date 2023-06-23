@@ -13,6 +13,9 @@ import '../../presentation/screens/transaction/trans_step3.dart';
 import '../../presentation/screens/transaction/trans_step4.dart';
 import '../../presentation/screens/transaction/trans_step5.dart';
 import '../../presentation/config/style/text_styles.dart';
+import '../../core/util/journey_list.dart';
+import '../../core/util/date_time_extension.dart';
+import '../../presentation/config/enums.dart';
 
 GlobalNav globalNav = GlobalNav.instance;
 
@@ -49,7 +52,14 @@ Future<Widget> returnTransactionsScreen(Account account, Function rebuildDashboa
   List<Transaction> transactions = await globalNav.transactionLink!.getListTransactions(account.id);
   return TransactionList(transactions, rebuildDashboard, account);
 }
+// This loads the journey and starts from Step 1, completing saves not inserts
+// Future<Widget> returnTransactionScreen(Transaction transaction, Account account, Function rebuildDashboard) async {
+//                     globalNav.transactionJourney.init(transaction);
+//                   globalNav.setDashboardWidget(globalNav.transactionJourney.start()(rebuildDashboard, account), NavIndex.transactions.index);
+//                   rebuildDashboard();
 
+//   return TransactionList(transactions, rebuildDashboard, account);
+// }
 Future<void> loadTransactionList(List<Transaction> transactions) async {
   await globalNav.appNavigation.pushNamed(NavigationPaths.transactionList, arguments: transactions);
 }
@@ -116,4 +126,25 @@ List<Widget> _convertRecurrences(BuildContext context) {
   }
   if (lsdo.isNotEmpty) lsdo.removeLast();
   return lsdo;
+}
+
+extension Verbs on JourneyList<Future<Widget> Function(Function, Account), Transaction> {
+  void init(Transaction newJourney) => modelData = newJourney;
+}
+
+void createOrUpdate(GlobalNav globalNav, TextEditingController controller, Account account, Function refreshDashboard) {
+  var trans = globalNav.transactionJourney.modelData;
+  trans.endDate = convertFormattedDate(controller.text);
+  trans.accountId = account.id;
+  trans.userId = globalNav.sharedPreferences!.getInt(AppConstants.userId)!;
+  if (trans.id == AppConstants.createIDConstant) {
+    globalNav.transactionLink!.insertTransaction(trans).then((value) {
+      refreshDashboard();
+    });
+  } else {
+    globalNav.transactionLink!.updateTransaction(trans).then((value) {
+      refreshDashboard();
+    });
+  }
+  globalNav.setDashboardWidget(returnTransactionsScreen(account, refreshDashboard), NavIndex.transactions.index);
 }
