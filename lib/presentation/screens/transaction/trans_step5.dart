@@ -56,6 +56,7 @@ class _TransStep5State extends State<TransStep5> {
           final isValid = formKey.currentState!.validate();
           if (!isValid) return;
           formKey.currentState!.save();
+          globalNav.transactionJourney.modelData.endDate = convertFormattedDate(controller.text);
           createOrUpdate(globalNav, controller, widget.account, widget.refreshDashboard);
         },
         enableButton: controller.text.isNotEmpty,

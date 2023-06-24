@@ -22,7 +22,7 @@ class AccountListTile extends StatelessWidget {
     super.key,
   });
 
-  Widget _getCirclePricedCurrency() {
+  Widget _getCirclePricedCurrency(BuildContext context) {
     var numb;
 
     if (account.balance < 1000) {
@@ -31,7 +31,7 @@ class AccountListTile extends StatelessWidget {
       numb = NumberFormat.currency(symbol: '£', decimalDigits: 0);
     }
     return CircleAvatar(
-      backgroundColor: cltx,
+      backgroundColor: Theme.of(context).colorScheme.primary,
       maxRadius: 25,
       minRadius: 20,
       child: Padding(
@@ -58,7 +58,7 @@ class AccountListTile extends StatelessWidget {
             GlobalNav.instance.setDashboardWidget(returnTransactionsScreen(account, rebuildDashboard), NavIndex.transactions.index);
           },
           tileColor: selectedAccountId == account.id ? Theme.of(context).colorScheme.primaryContainer : Theme.of(context).colorScheme.onPrimary,
-          leading: _getCirclePricedCurrency(),
+          leading: _getCirclePricedCurrency(context),
           title: Text(
             account.accountName,
             style: selectedAccountId == account.id ? oppositeWay(context) : getContextHelperStyle(context),

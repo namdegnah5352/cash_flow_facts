@@ -14,7 +14,7 @@ class TransactionListTile extends StatelessWidget {
   final Account account;
   const TransactionListTile(this.transaction, this.rebuildDashboard, this.account, {super.key});
 
-  Widget _getCirclePricedCurrency() {
+  Widget _getCirclePricedCurrency(BuildContext context) {
     var numb;
 
     if (transaction.amount < 1000) {
@@ -23,7 +23,7 @@ class TransactionListTile extends StatelessWidget {
       numb = NumberFormat.currency(symbol: '£', decimalDigits: 0);
     }
     return CircleAvatar(
-      backgroundColor: cltx,
+      backgroundColor: Theme.of(context).colorScheme.primary,
       maxRadius: 25,
       minRadius: 20,
       child: Padding(
@@ -46,7 +46,7 @@ class TransactionListTile extends StatelessWidget {
     return Column(
       children: <Widget>[
         ListTile(
-          leading: _getCirclePricedCurrency(),
+          leading: _getCirclePricedCurrency(context),
           title: Text(transaction.title, style: oppositeWay(context)),
           trailing: SizedBox(
             width: 100,

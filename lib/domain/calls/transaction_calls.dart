@@ -16,6 +16,7 @@ import '../../presentation/config/style/text_styles.dart';
 import '../../core/util/journey_list.dart';
 import '../../core/util/date_time_extension.dart';
 import '../../presentation/config/enums.dart';
+import '../../presentation/widgets/common_widgets.dart';
 
 GlobalNav globalNav = GlobalNav.instance;
 
@@ -134,7 +135,6 @@ extension Verbs on JourneyList<Future<Widget> Function(Function, Account), Trans
 
 void createOrUpdate(GlobalNav globalNav, TextEditingController controller, Account account, Function refreshDashboard) {
   var trans = globalNav.transactionJourney.modelData;
-  trans.endDate = convertFormattedDate(controller.text);
   trans.accountId = account.id;
   trans.userId = globalNav.sharedPreferences!.getInt(AppConstants.userId)!;
   if (trans.id == AppConstants.createIDConstant) {
@@ -147,4 +147,53 @@ void createOrUpdate(GlobalNav globalNav, TextEditingController controller, Accou
     });
   }
   globalNav.setDashboardWidget(returnTransactionsScreen(account, refreshDashboard), NavIndex.transactions.index);
+}
+
+Widget getSaveButton(
+  GlobalKey<FormState> formKey,
+  int recurrenceId,
+  Function refreshDashboard,
+  Account account,
+  TextEditingController controller,
+  GlobalNav globlalNav,
+) {
+  return simpleButton(
+    bottomMargin: 20,
+    sideMargin: 20,
+    onTap: () async {
+      final isValid = formKey.currentState!.validate();
+      if (!isValid) return;
+      formKey.currentState!.save();
+      globalNav.transactionJourney.modelData.recurrenceId = recurrenceId;
+      createOrUpdate(globalNav, controller, account, refreshDashboard);
+    },
+    enableButton: controller.text.isNotEmpty,
+    label: 'Save',
+  );
+}
+
+Widget getContinueButton(
+  GlobalKey<FormState> formKey,
+  int recurrenceId,
+  Function refreshDashboard,
+  Account account,
+  TextEditingController controller,
+) {
+  return simpleButton(
+    bottomMargin: 20,
+    sideMargin: 20,
+    onTap: () async {
+      final isValid = formKey.currentState!.validate();
+      if (!isValid) return;
+      formKey.currentState!.save();
+      globalNav.transactionJourney.modelData.recurrenceId = recurrenceId;
+      globalNav.setDashboardWidget(
+        globalNav.transactionJourney[TransIndex.step5.index](refreshDashboard, account),
+        NavIndex.transactions.index,
+      );
+      refreshDashboard();
+    },
+    enableButton: controller.text.isNotEmpty,
+    label: 'Continue',
+  );
 }

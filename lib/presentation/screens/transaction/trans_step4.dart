@@ -21,10 +21,12 @@ class TransStep4 extends StatefulWidget {
 }
 
 class _TransStep4State extends State<TransStep4> {
+  SaveContinue saveOrContinue = SaveContinue.continued;
   final formKey = GlobalKey<FormState>();
   late final TextEditingController controller;
   var recurrenceId = AppConstants.createIDConstant;
   FocusNode focusNode = FocusNode();
+
   @override
   void initState() {
     controller = TextEditingController();
@@ -33,6 +35,7 @@ class _TransStep4State extends State<TransStep4> {
     if (data != AppConstants.createIDConstant) {
       Recurrence recurrence = recurrences.firstWhere((element) => element.id == data);
       recurrenceId = recurrence.id;
+      if (recurrenceId == 1 || recurrenceId == 2) saveOrContinue = SaveContinue.saved;
       controller.text = recurrence.title;
     }
     focusNode.requestFocus();
@@ -48,23 +51,10 @@ class _TransStep4State extends State<TransStep4> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: simpleButton(
-        bottomMargin: 20,
-        sideMargin: 20,
-        onTap: () async {
-          final isValid = formKey.currentState!.validate();
-          if (!isValid) return;
-          formKey.currentState!.save();
-          globalNav.transactionJourney.modelData.recurrenceId = recurrenceId;
-          globalNav.setDashboardWidget(
-            globalNav.transactionJourney[TransIndex.step5.index](widget.refreshDashboard, widget.account),
-            NavIndex.transactions.index,
-          );
-          widget.refreshDashboard();
-        },
-        enableButton: controller.text.isNotEmpty,
-        label: 'Continue',
-      ),
+      bottomNavigationBar: switch (saveOrContinue) {
+        SaveContinue.saved => getSaveButton(formKey, recurrenceId, widget.refreshDashboard, widget.account, controller, globalNav),
+        SaveContinue.continued => getContinueButton(formKey, recurrenceId, widget.refreshDashboard, widget.account, controller),
+      },
       appBar: AppBar(
         leading: null,
         automaticallyImplyLeading: false,
@@ -113,6 +103,12 @@ class _TransStep4State extends State<TransStep4> {
                         setState(() {
                           controller.text = recurrence.title;
                           recurrenceId = recurrence.id;
+                          if (recurrenceId == 1 || recurrenceId == 2) {
+                            setState(() {
+                              saveOrContinue = SaveContinue.saved;
+                              globalNav.transactionJourney.modelData.endDate = null;
+                            });
+                          }
                         });
                       }
                     },
