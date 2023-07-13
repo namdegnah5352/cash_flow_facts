@@ -1,13 +1,13 @@
+import 'package:cash_flow_facts/domain/calls/transaction_calls.dart';
+import 'package:cash_flow_facts/presentation/config/constants.dart';
 import 'package:flutter/material.dart';
 import '../../widgets/common_widgets.dart';
 import '../../config/navigation/global_nav.dart';
 import '../../config/enums.dart';
 import '../../../domain/entities/accounts/account.dart';
+import '../../../domain/entities/recurrence.dart';
 import '../../config/style/text_styles.dart';
 import '../../../core/util/validators.dart';
-import '../../../core/util/date_time_extension.dart';
-import 'package:cash_flow_facts/presentation/config/constants.dart';
-import '../../../domain/calls/transaction_calls.dart';
 
 GlobalNav globalNav = GlobalNav.instance;
 
@@ -21,47 +21,30 @@ class TransStep5 extends StatefulWidget {
 }
 
 class _TransStep5State extends State<TransStep5> {
+  SaveContinue saveOrContinue = SaveContinue.toSave;
   final formKey = GlobalKey<FormState>();
-  late final TextEditingController controller;
+  OngoingEnd ongoingEnd = OngoingEnd.ongoing;
   FocusNode focusNode = FocusNode();
-  DateTime? selectedDate;
-  final DateTime _firstDate = DateTime.now();
-  final DateTime _lastDate = DateTime(DateTime.now().year + 25);
+
   @override
   void initState() {
-    controller = TextEditingController();
-    // see here if the object has any data
+    // To Do if end date set then default to this
     DateTime? data = GlobalNav.instance.transactionJourney.modelData.endDate;
     if (data != null) {
-      controller.text = formattedDate.format(data);
-      selectedDate = data;
+      saveOrContinue = SaveContinue.toContinue;
+      ongoingEnd = OngoingEnd.endDate;
     }
     focusNode.requestFocus();
     super.initState();
   }
 
   @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: simpleButton(
-        bottomMargin: 20,
-        sideMargin: 20,
-        onTap: () async {
-          final isValid = formKey.currentState!.validate();
-          if (!isValid) return;
-          formKey.currentState!.save();
-          globalNav.transactionJourney.modelData.endDate = convertFormattedDate(controller.text);
-          createOrUpdate(globalNav, controller, widget.account, widget.refreshDashboard);
-        },
-        enableButton: controller.text.isNotEmpty,
-        label: 'Save',
-      ),
+      bottomNavigationBar: switch (saveOrContinue) {
+        SaveContinue.toSave => getSaveButton(formKey: formKey, refreshDashboard: widget.refreshDashboard, account: widget.account, globalNav: globalNav, enableOverride: true),
+        SaveContinue.toContinue => getContinueButton(formKey: formKey, refreshDashboard: widget.refreshDashboard, account: widget.account, enableOverride: true, nextPage: TransIndex.step6),
+      },
       appBar: AppBar(
         leading: null,
         automaticallyImplyLeading: false,
@@ -86,38 +69,38 @@ class _TransStep5State extends State<TransStep5> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text('End Date for these transactions', style: getContextStyle(context)),
-              const SizedBox(height: 50),
-              textFormField(
-                readOnlyOption: true,
-                controller: controller,
-                editComplete: () {},
-                onChanged: () {
-                  setState(() {});
-                },
-                thisNode: focusNode,
-                labelText: 'End date',
-                validator: isRequired('You must select an end date'),
-                helperText: 'When do these transactions end?',
-                helperStyle: getContextHelperStyle(context),
+              Text('Ongoing or End Date', style: getContextStyle(context)),
+              const SizedBox(height: 10),
+              Text(
+                'Does this transaction have a finish date or is it ongoing?',
+                style: smallPrimary(context),
+                textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 20),
-              FilledButton.tonal(
-                onPressed: () async {
-                  DateTime? date = await showDatePicker(
-                    context: context,
-                    initialDate: selectedDate ?? DateTime.now(),
-                    firstDate: _firstDate,
-                    lastDate: _lastDate,
-                  );
+              const SizedBox(height: 50),
+              SegmentedButton<OngoingEnd>(
+                segments: const [
+                  ButtonSegment<OngoingEnd>(
+                    value: OngoingEnd.ongoing,
+                    label: Text('Ongoing'),
+                    icon: Icon(Icons.event_repeat),
+                  ),
+                  ButtonSegment<OngoingEnd>(
+                    value: OngoingEnd.endDate,
+                    label: Text('End Date'),
+                    icon: Icon(Icons.edit_calendar),
+                  ),
+                ],
+                selected: <OngoingEnd>{ongoingEnd},
+                onSelectionChanged: (newSelection) {
                   setState(() {
-                    selectedDate = date;
-                    if (selectedDate != null) {
-                      controller.text = formattedDate.format(date!);
-                    }
+                    ongoingEnd = newSelection.first;
+                    saveOrContinue = switch (ongoingEnd) {
+                      OngoingEnd.ongoing => SaveContinue.toSave,
+                      OngoingEnd.endDate => SaveContinue.toContinue,
+                    };
+                    if (ongoingEnd == OngoingEnd.ongoing) globalNav.transactionJourney.modelData.endDate = null;
                   });
                 },
-                child: const Text('Choose End Date'),
               ),
             ],
           ),

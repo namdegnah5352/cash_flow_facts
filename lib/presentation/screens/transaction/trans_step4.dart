@@ -21,7 +21,7 @@ class TransStep4 extends StatefulWidget {
 }
 
 class _TransStep4State extends State<TransStep4> {
-  SaveContinue saveOrContinue = SaveContinue.continued;
+  SaveContinue saveOrContinue = SaveContinue.toContinue;
   final formKey = GlobalKey<FormState>();
   late final TextEditingController controller;
   var recurrenceId = AppConstants.createIDConstant;
@@ -35,7 +35,7 @@ class _TransStep4State extends State<TransStep4> {
     if (data != AppConstants.createIDConstant) {
       Recurrence recurrence = recurrences.firstWhere((element) => element.id == data);
       recurrenceId = recurrence.id;
-      if (recurrenceId == 1 || recurrenceId == 2) saveOrContinue = SaveContinue.saved;
+      if (recurrenceId == AppConstants.oneOffRecurrence) saveOrContinue = SaveContinue.toSave;
       controller.text = recurrence.title;
     }
     focusNode.requestFocus();
@@ -52,8 +52,8 @@ class _TransStep4State extends State<TransStep4> {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: switch (saveOrContinue) {
-        SaveContinue.saved => getSaveButton(formKey, recurrenceId, widget.refreshDashboard, widget.account, controller, globalNav),
-        SaveContinue.continued => getContinueButton(formKey, recurrenceId, widget.refreshDashboard, widget.account, controller),
+        SaveContinue.toSave => getSaveButton(formKey: formKey, refreshDashboard: widget.refreshDashboard, account: widget.account, globalNav: globalNav, controller: controller),
+        SaveContinue.toContinue => getContinueButton(formKey: formKey, recurrenceId: recurrenceId, refreshDashboard: widget.refreshDashboard, account: widget.account, controller: controller, nextPage: TransIndex.step5),
       },
       appBar: AppBar(
         leading: null,
@@ -103,9 +103,9 @@ class _TransStep4State extends State<TransStep4> {
                         setState(() {
                           controller.text = recurrence.title;
                           recurrenceId = recurrence.id;
-                          if (recurrenceId == 1 || recurrenceId == 2) {
+                          if (recurrenceId == AppConstants.oneOffRecurrence) {
                             setState(() {
-                              saveOrContinue = SaveContinue.saved;
+                              saveOrContinue = SaveContinue.toSave;
                               globalNav.transactionJourney.modelData.endDate = null;
                             });
                           }

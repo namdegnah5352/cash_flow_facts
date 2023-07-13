@@ -54,7 +54,7 @@ class TransactionRepositoryImp extends TransactionRepository {
             id: item[TransactionNames.id],
             userId: item[TransactionNames.user_id],
             title: item[TransactionNames.title],
-            nextTransactionDate: item[TransactionNames.nextTransactionDate] == null
+            nextTransactionDate: (item[TransactionNames.nextTransactionDate] == null || item[TransactionNames.nextTransactionDate].isEmpty)
                 ? null
                 : convertFormattedDate(
                     item[TransactionNames.nextTransactionDate],
@@ -63,7 +63,7 @@ class TransactionRepositoryImp extends TransactionRepository {
             processed: item[TransactionNames.processed],
             accountId: item[TransactionNames.accountId],
             recurrenceId: item[TransactionNames.recurrenceId],
-            endDate: item[TransactionNames.endDate] == null
+            endDate: (item[TransactionNames.endDate] == null || item[TransactionNames.endDate].isEmpty)
                 ? null
                 : convertFormattedDate(
                     item[TransactionNames.endDate],
@@ -79,13 +79,13 @@ class TransactionRepositoryImp extends TransactionRepository {
     return {
       TransactionNames.title: transaction.title,
       TransactionNames.user_id: userId,
-      TransactionNames.nextTransactionDate: formattedDate.format(transaction.nextTransactionDate ?? DateTime.now()),
+      TransactionNames.nextTransactionDate: formattedDate.format(transaction.nextTransactionDate!),
       TransactionNames.amount: transaction.amount,
       TransactionNames.accountId: transaction.accountId,
       TransactionNames.recurrenceId: transaction.recurrenceId,
       TransactionNames.usedForCashFlow: transaction.usedForCashFlow == true ? 1 : 0,
       TransactionNames.processed: transaction.processed,
-      TransactionNames.endDate: formattedDate.format(transaction.endDate ??= DateTime.now()),
+      TransactionNames.endDate: transaction.endDate == null ? '' : formattedDate.format(transaction.endDate!),
     };
   }
 }

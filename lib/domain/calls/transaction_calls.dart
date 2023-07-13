@@ -12,6 +12,7 @@ import '../../presentation/screens/transaction/trans_step2.dart';
 import '../../presentation/screens/transaction/trans_step3.dart';
 import '../../presentation/screens/transaction/trans_step4.dart';
 import '../../presentation/screens/transaction/trans_step5.dart';
+import '../../presentation/screens/transaction/trans_step6.dart';
 import '../../presentation/config/style/text_styles.dart';
 import '../../core/util/journey_list.dart';
 import '../../core/util/date_time_extension.dart';
@@ -89,6 +90,10 @@ Future<Widget> loadStep5(Function callback, Account account) async {
   return TransStep5(callback, account);
 }
 
+Future<Widget> loadStep6(Function callback, Account account) async {
+  return TransStep6(callback, account);
+}
+
 Future<Recurrence?> showRecurrenceDialog(BuildContext context) async {
   return await showDialog(
     context: context,
@@ -133,7 +138,7 @@ extension Verbs on JourneyList<Future<Widget> Function(Function, Account), Trans
   void init(Transaction newJourney) => modelData = newJourney;
 }
 
-void createOrUpdate(GlobalNav globalNav, TextEditingController controller, Account account, Function refreshDashboard) {
+void createOrUpdate(GlobalNav globalNav, Account account, Function refreshDashboard) {
   var trans = globalNav.transactionJourney.modelData;
   trans.accountId = account.id;
   trans.userId = globalNav.sharedPreferences!.getInt(AppConstants.userId)!;
@@ -149,14 +154,15 @@ void createOrUpdate(GlobalNav globalNav, TextEditingController controller, Accou
   globalNav.setDashboardWidget(returnTransactionsScreen(account, refreshDashboard), NavIndex.transactions.index);
 }
 
-Widget getSaveButton(
-  GlobalKey<FormState> formKey,
-  int recurrenceId,
-  Function refreshDashboard,
-  Account account,
-  TextEditingController controller,
-  GlobalNav globlalNav,
-) {
+Widget getSaveButton({
+  required GlobalKey<FormState> formKey,
+  int? recurrenceId,
+  required Function refreshDashboard,
+  required Account account,
+  TextEditingController? controller,
+  required GlobalNav globalNav,
+  bool? enableOverride,
+}) {
   return simpleButton(
     bottomMargin: 20,
     sideMargin: 20,
@@ -164,21 +170,23 @@ Widget getSaveButton(
       final isValid = formKey.currentState!.validate();
       if (!isValid) return;
       formKey.currentState!.save();
-      globalNav.transactionJourney.modelData.recurrenceId = recurrenceId;
-      createOrUpdate(globalNav, controller, account, refreshDashboard);
+      if (recurrenceId != null) globalNav.transactionJourney.modelData.recurrenceId = recurrenceId;
+      createOrUpdate(globalNav, account, refreshDashboard);
     },
-    enableButton: controller.text.isNotEmpty,
+    enableButton: enableOverride ??= controller!.text.isNotEmpty,
     label: 'Save',
   );
 }
 
-Widget getContinueButton(
-  GlobalKey<FormState> formKey,
-  int recurrenceId,
-  Function refreshDashboard,
-  Account account,
-  TextEditingController controller,
-) {
+Widget getContinueButton({
+  required GlobalKey<FormState> formKey,
+  int? recurrenceId,
+  required Function refreshDashboard,
+  required Account account,
+  required TransIndex nextPage,
+  TextEditingController? controller,
+  bool? enableOverride,
+}) {
   return simpleButton(
     bottomMargin: 20,
     sideMargin: 20,
@@ -186,14 +194,14 @@ Widget getContinueButton(
       final isValid = formKey.currentState!.validate();
       if (!isValid) return;
       formKey.currentState!.save();
-      globalNav.transactionJourney.modelData.recurrenceId = recurrenceId;
+      if (recurrenceId != null) globalNav.transactionJourney.modelData.recurrenceId = recurrenceId;
       globalNav.setDashboardWidget(
-        globalNav.transactionJourney[TransIndex.step5.index](refreshDashboard, account),
+        globalNav.transactionJourney[nextPage.index](refreshDashboard, account),
         NavIndex.transactions.index,
       );
       refreshDashboard();
     },
-    enableButton: controller.text.isNotEmpty,
+    enableButton: enableOverride ??= controller!.text.isNotEmpty,
     label: 'Continue',
   );
 }

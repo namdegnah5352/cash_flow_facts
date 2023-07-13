@@ -33,6 +33,8 @@ enum ColorSelectionMethod { colorSeed, image }
 
 enum NavIndex { accounts, transactions, movemoney, settings }
 
-enum TransIndex { step1, step2, step3, step4, step5 }
+enum TransIndex { step1, step2, step3, step4, step5, step6 }
 
-enum SaveContinue { saved, continued }
+enum SaveContinue { toSave, toContinue }
+
+enum OngoingEnd { ongoing, endDate }

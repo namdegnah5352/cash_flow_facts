@@ -54,6 +54,7 @@ class AppConstants {
   static const errorCustomPainterWidth = 55;
   static const stateError = 'An unxepected state was returned, please take a screen shot and email to the developer';
   static const createIDConstant = -1;
+  static const oneOffRecurrence = 1;
 }
 
 class UserNames {
@@ -260,15 +261,14 @@ List<AccountType> types = [
 ];
 List<Recurrence> recurrences = [
   Recurrence(id: 1, title: 'One Off', duration: null, icon: Icons.event_busy),
-  Recurrence(id: 2, title: 'Ongoing', duration: null, icon: Icons.event_repeat),
-  Recurrence(id: 3, title: 'Weekly', duration: const Duration(days: 7), icon: Icons.next_week),
-  Recurrence(id: 4, title: 'Fortnight', duration: const Duration(days: 14), icon: Icons.calendar_view_day),
-  Recurrence(id: 5, title: '4 weeks', duration: const Duration(days: 28), icon: Icons.view_week),
-  Recurrence(id: 6, title: 'Month', duration: null, icon: Icons.calendar_view_month),
-  Recurrence(id: 7, title: 'Quarter', duration: null, icon: Icons.calendar_view_week),
-  Recurrence(id: 8, title: 'Half Year', duration: null, icon: Icons.calendar_today),
-  Recurrence(id: 9, title: 'Year', duration: null, icon: Icons.date_range),
-  Recurrence(id: 10, title: 'End of Month', duration: null, icon: Icons.upcoming),
-  Recurrence(id: 11, title: 'First of Month', duration: null, icon: Icons.schedule_send),
+  Recurrence(id: 2, title: 'Weekly', duration: const Duration(days: 7), icon: Icons.next_week),
+  Recurrence(id: 3, title: 'Fortnight', duration: const Duration(days: 14), icon: Icons.calendar_view_day),
+  Recurrence(id: 4, title: '4 weeks', duration: const Duration(days: 28), icon: Icons.view_week),
+  Recurrence(id: 5, title: 'Month', duration: null, icon: Icons.calendar_view_month),
+  Recurrence(id: 6, title: 'Quarter', duration: null, icon: Icons.calendar_view_week),
+  Recurrence(id: 7, title: 'Half Year', duration: null, icon: Icons.calendar_today),
+  Recurrence(id: 8, title: 'Year', duration: null, icon: Icons.date_range),
+  Recurrence(id: 9, title: 'End of Month', duration: null, icon: Icons.upcoming),
+  Recurrence(id: 10, title: 'First of Month', duration: null, icon: Icons.schedule_send),
 ];
 final formattedDate = DateFormat('dd-MM-yyyy');

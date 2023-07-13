@@ -89,6 +89,8 @@ TextStyle oppositeWay(BuildContext context) {
   return anyStyle(start: getContextHelperStyle(context), color: Theme.of(context).colorScheme.primary);
 }
 
+TextStyle smallPrimary(BuildContext context) => anyStyle(start: oppositeWay(context), fontSize: 16);
+
 TextStyle getDialogHeaderStyle(BuildContext context) {
   return anyStyle(start: getContextHelperStyle(context), fontSize: 16);
 }

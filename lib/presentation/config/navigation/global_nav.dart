@@ -72,7 +72,7 @@ class GlobalNav {
     appDataSource = LocalDataSource();
     //Journey
     transactionJourney = JourneyList(Transaction.startUp());
-    transactionJourney.addAll([loadStep1, loadStep2, loadStep3, loadStep4, loadStep5]);
+    transactionJourney.addAll([loadStep1, loadStep2, loadStep3, loadStep4, loadStep5, loadStep6]);
     //user
     userRepository = UserRepositoryImp(dataSource: appDataSource!);
     userUser = UserUser(repository: userRepository!);
